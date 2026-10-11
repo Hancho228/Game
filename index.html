@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tap Game</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 20px;
+           background: #1a1a2e; color: white; margin: 0; }
+    #tapBtn {
+      width: 200px; height: 200px; border-radius: 50%;
+      font-size: 60px; background: gold; border: none;
+      margin: 30px auto; display: block; cursor: pointer;
+      transition: transform 0.1s;
+    }
+    #tapBtn:active { transform: scale(0.9); }
+    .shop button { display: block; width: 100%; margin: 8px 0;
+                   padding: 12px; font-size: 16px; border-radius: 10px;
+                   border: none; background: #16213e; color: white; }
+    .shop button:disabled { opacity: 0.4; }
+  </style>
+</head>
+<body>
+  <h1>💰 <span id="money">0</span></h1>
+  <p>За клик: <span id="perTap">1</span></p>
+
+  <button id="tapBtn">👆</button>
+
+  <div class="shop">
+    <h3>Магазин</h3>
+    <button id="upTap">Апгрейд тапа (cost: <span id="tapCost">10</span>)</button>
+    <button id="buyBiz">Бизнес +1/сек (cost: <span id="bizCost">100</span>)</button>
+  </div>
+
+<script>
+  const tg = window.Telegram?.WebApp;
+  tg?.ready();
+  tg?.expand();
+
+  let state = JSON.parse(localStorage.getItem('game') || 'null') || {
+    money: 0, perTap: 1, tapLevel: 1, bizLevel: 0,
+    tapCost: 10, bizCost: 100, lastTime: Date.now()
+  };
+
+  // оффлайн-доход
+  const now = Date.now();
+  const offlineSec = Math.min((now - state.lastTime) / 1000, 3600);
+  state.money += state.bizLevel * offlineSec;
+  state.lastTime = now;
+
+  const $ = id => document.getElementById(id);
+
+  function render() {
+    $('money').textContent = Math.floor(state.money);
+    $('perTap').textContent = state.perTap;
+    $('tapCost').textContent = state.tapCost;
+    $('bizCost').textContent = state.bizCost;
+    $('upTap').disabled = state.money < state.tapCost;
+    $('buyBiz').disabled = state.money < state.bizCost;
+    localStorage.setItem('game', JSON.stringify(state));
+  }
+
+  $('tapBtn').onclick = () => {
+    state.money += state.perTap;
+    if (tg) tg.HapticFeedback?.impactOccurred('light');
+    render();
+  };
+
+  $('upTap').onclick = () => {
+    if (state.money < state.tapCost) return;
+    state.money -= state.tapCost;
+    state.tapLevel++;
+    state.perTap = state.tapLevel;
+    state.tapCost = Math.floor(state.tapCost * 1.5);
+    render();
+  };
+
+  $('buyBiz').onclick = () => {
+    if (state.money < state.bizCost) return;
+    state.money -= state.bizCost;
+    state.bizLevel++;
+    state.bizCost = Math.floor(state.bizCost * 1.8);
+    render();
+  };
+
+  // пассивный доход
+  setInterval(() => {
+    state.money += state.bizLevel;
+    state.lastTime = Date.now();
+    render();
+  }, 1000);
+
+  render();
+</script>
+</body>
+</html>
