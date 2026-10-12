@@ -52,25 +52,40 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
   transform:translate(-50%,-50%);pointer-events:none;animation:ring .6s ease-out forwards;z-index:15}
 @keyframes ring{0%{width:20px;height:20px;opacity:1}100%{width:120px;height:120px;opacity:0}}
 
-/* === МАГАЗИН С ВКЛАДКАМИ === */
-.shop{position:absolute;bottom:0;left:0;right:0;z-index:15;
-  max-height:48vh;display:flex;flex-direction:column;
+/* === ПАНЕЛЬ МАГАЗИНА (bottom sheet со свайпом) === */
+.shop{
+  position:absolute;bottom:0;left:0;right:0;z-index:15;
+  height:52vh;
+  display:flex;flex-direction:column;
   background:linear-gradient(180deg,#8a5f1a 0%,#6a4a1a 100%);
   border-top:5px solid #4a2f0a;border-radius:24px 24px 0 0;
-  box-shadow:0 -6px 20px rgba(0,0,0,.5)}
-.shop-handle{width:50px;height:6px;background:#d4a860;border-radius:3px;margin:8px auto 4px;flex-shrink:0}
+  box-shadow:0 -6px 20px rgba(0,0,0,.5);
+  transform:translateY(0);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  touch-action:none;
+}
+.shop.collapsed{transform:translateY(calc(100% - 140px))} /* 140px = вкладки + ручка */
 
+/* Ручка для свайпа */
+.shop-handle-area{
+  padding:10px 0 6px;
+  display:flex;justify-content:center;align-items:center;
+  cursor:grab;flex-shrink:0
+}
+.shop-handle{width:60px;height:7px;background:#d4a860;border-radius:4px;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+
+/* Вкладки */
 .tabs{display:flex;gap:6px;padding:0 10px 10px;flex-shrink:0}
 .tab{flex:1;padding:10px 6px;border-radius:14px;text-align:center;cursor:pointer;
   background:rgba(0,0,0,.25);border:3px solid #4a2f0a;
   color:#d4a860;font-weight:700;font-size:13px;transition:all .15s;
-  box-shadow:0 3px 0 #4a2f0a}
+  box-shadow:0 3px 0 #4a2f0a;user-select:none}
 .tab:active{transform:translateY(2px);box-shadow:0 1px 0 #4a2f0a}
 .tab.active{background:linear-gradient(180deg,#ffd966,#ffb800);color:#5a3a1a;border-color:#8a5f1a;
   box-shadow:0 3px 0 #8a5f1a}
 .tab .tab-icon{font-size:18px;display:block;line-height:1;margin-bottom:2px}
 
-.tab-content{overflow-y:auto;padding:0 10px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tab-content{overflow-y:auto;padding:0 10px 16px;display:flex;flex-direction:column;gap:8px;flex:1;touch-action:pan-y}
 .tab-content::-webkit-scrollbar{width:0}
 .tab-content.hidden{display:none}
 
@@ -84,9 +99,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .card.biz{background:linear-gradient(180deg,#e6ffdc,#b8f0a8);border-color:#2a6a1a;box-shadow:0 4px 0 #2a6a1a}
 .card.biz:not(.dis):active{box-shadow:0 1px 0 #2a6a1a}
 .card.biz .cpv{color:#1a5a0a}
-
-.card.casino{background:linear-gradient(180deg,#ffd6f0,#ff9ecb);border-color:#8a1a5a;box-shadow:0 4px 0 #8a1a5a}
-.card.casino .cpv{color:#8a1a5a}
 
 .ci{font-size:26px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;
   background:rgba(255,255,255,.6);border-radius:12px;flex-shrink:0;border:2px solid rgba(90,58,26,.3)}
@@ -104,7 +116,7 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .soon .title{font-size:20px;font-weight:700;color:#ffd966;margin-bottom:6px}
 .soon .sub{font-size:13px;color:#d4a860;line-height:1.5}
 
-.toast{position:fixed;bottom:calc(48vh + 20px);left:50%;transform:translateX(-50%) translateY(120px);
+.toast{position:fixed;bottom:calc(52vh + 20px);left:50%;transform:translateX(-50%) translateY(120px);
   background:linear-gradient(180deg,#fffbe6,#ffe9a8);color:#3a2a0a;
   padding:10px 20px;border-radius:14px;font-size:14px;font-weight:600;
   transition:transform .3s;z-index:100;border:3px solid #8a5f1a;
@@ -135,8 +147,10 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
     </div>
   </div>
 
-  <div class="shop">
-    <div class="shop-handle"></div>
+  <div class="shop" id="shop">
+    <div class="shop-handle-area" id="handleArea">
+      <div class="shop-handle"></div>
+    </div>
     <div class="tabs">
       <div class="tab active" data-tab="tap"><span class="tab-icon">👆</span>Тап</div>
       <div class="tab" data-tab="biz"><span class="tab-icon">🏢</span>Бизнес</div>
@@ -215,7 +229,6 @@ function renderTap(){
  t.className='card'+(S.money<S.tapCost?' dis':'');
  t.innerHTML=`<div class="ci">👆</div><div class="cinfo"><div class="cname">Сила тапа <span class="lvl">Ур. ${S.tapLevel}</span></div><div class="cdesc">+1 к тапу</div></div><div class="cprice"><div class="cpv">💰 ${fmt(S.tapCost)}</div><div class="cpl">Цена</div></div>`;
  t.onclick=e=>{e.stopPropagation();buyTap()};el.appendChild(t);
- // Заглушка для будущих апгрейдов
  const soon=document.createElement('div');
  soon.className='card dis';
  soon.innerHTML=`<div class="ci">🔒</div><div class="cinfo"><div class="cname">Больше апгрейдов</div><div class="cdesc">Откроются позже</div></div>`;
@@ -242,7 +255,8 @@ function buyBiz(id){const b=S.businesses.find(x=>x.id===id);if(!b||S.money<b.cos
 
 // === Переключение вкладок ===
 document.querySelectorAll('.tab').forEach(t=>{
- t.addEventListener('click',()=>{
+ t.addEventListener('click',e=>{
+  e.stopPropagation();
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(x=>x.classList.add('hidden'));
   t.classList.add('active');
@@ -251,8 +265,52 @@ document.querySelectorAll('.tab').forEach(t=>{
  });
 });
 
+// === СВАЙП ВНИЗ — СВЕРНУТЬ ПАНЕЛЬ ===
+const shop=$('shop');
+const handleArea=$('handleArea');
+let startY=0,curY=0,dragging=false,collapsed=false;
+
+handleArea.addEventListener('pointerdown',e=>{
+ dragging=true;startY=e.clientY;curY=startY;
+ handleArea.setPointerCapture(e.pointerId);
+ shop.style.transition='none';
+});
+handleArea.addEventListener('pointermove',e=>{
+ if(!dragging)return;
+ curY=e.clientY;
+ const dy=curY-startY;
+ const baseY=collapsed?'calc(100% - 140px)':'0';
+ // Ограничим движение
+ const max=window.innerHeight*0.52-140;
+ let offset=dy;
+ if(collapsed) offset=Math.max(-max,Math.min(0,dy+max));
+ else offset=Math.max(0,Math.min(max,dy));
+ const shifted=(collapsed?max:0)+offset;
+ shop.style.transform=`translateY(${shifted}px)`;
+});
+handleArea.addEventListener('pointerup',e=>{
+ if(!dragging)return;
+ dragging=false;
+ shop.style.transition='';
+ const dy=curY-startY;
+ const threshold=40;
+ if(!collapsed&&dy>threshold){collapsed=true;shop.classList.add('collapsed');shop.style.transform='';tg?.HapticFeedback?.impactOccurred('soft')}
+ else if(collapsed&&dy<-threshold){collapsed=false;shop.classList.remove('collapsed');shop.style.transform='';tg?.HapticFeedback?.impactOccurred('soft')}
+ else{shop.style.transform=''}
+});
+// Тап по ручке — тоже сворачивает/разворачивает
+handleArea.addEventListener('click',()=>{
+ if(Math.abs(curY-startY)<8){
+  collapsed=!collapsed;
+  shop.classList.toggle('collapsed',collapsed);
+  shop.style.transform='';
+  tg?.HapticFeedback?.impactOccurred('soft');
+ }
+});
+
 // === ТАП ПО ВСЕМУ ЭКРАНУ ===
 $('tapZone').addEventListener('pointerdown',e=>{
+ // Если панель свёрнута — при тапе в верхней части развернём её (опционально)
  S.money+=S.perTap;
  tg?.HapticFeedback?.impactOccurred('light');
 
