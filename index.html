@@ -11,6 +11,7 @@
 html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 #app{height:100vh;position:relative;overflow:hidden}
 
+/* ФОН */
 #bg{position:absolute;inset:0;transition:all .6s ease;background-size:cover;background-position:center;z-index:0}
 .s1{background-image:url('scene1.png')}
 .s2{background-image:url('scene2.png')}
@@ -20,9 +21,11 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .s6{background-image:url('scene6.png')}
 .s7{background-image:url('scene7.png')}
 
+/* ПЕРСОНАЖ */
 #char{position:absolute;bottom:45%;left:50%;transform:translateX(-50%);font-size:150px;z-index:3;
   filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));transition:font-size .4s;line-height:1;pointer-events:none}
 
+/* ВЕРХНИЙ UI */
 .top{position:absolute;top:0;left:0;right:0;z-index:10;padding:12px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .top>*{pointer-events:auto}
 .bal-card{background:linear-gradient(180deg,#fffbe6,#ffe9a8);
@@ -41,6 +44,7 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .stat-v{font-size:15px;font-weight:700;color:#fff;text-shadow:0 2px 0 #2a6a9a}
 .stat-l{font-size:9px;color:#fff;text-transform:uppercase;font-weight:600;text-shadow:0 1px 0 #2a6a9a}
 
+/* ТАП-ЗОНА */
 .tap-zone{position:absolute;inset:0;z-index:5;cursor:pointer}
 
 .float{position:absolute;font-size:26px;font-weight:700;color:#fff;
@@ -52,49 +56,36 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
   transform:translate(-50%,-50%);pointer-events:none;animation:ring .6s ease-out forwards;z-index:15}
 @keyframes ring{0%{width:20px;height:20px;opacity:1}100%{width:120px;height:120px;opacity:0}}
 
-/* === ПАНЕЛЬ МАГАЗИНА === */
-  .shop{
-  position:absolute;bottom:0;left:0;right:0;z-index:15;
-  height:52vh;
+/* === КОНТЕНТ (над вкладками, сворачиваемый) === */
+.content-wrap{
+  position:absolute;left:0;right:0;bottom:80px; /* 80px = высота вкладок */
+  top:auto;height:44vh;
+  z-index:14;
   display:flex;flex-direction:column;
   background:linear-gradient(180deg,#8a5f1a 0%,#6a4a1a 100%);
   border-top:5px solid #4a2f0a;border-radius:24px 24px 0 0;
   box-shadow:0 -6px 20px rgba(0,0,0,.5);
   transform:translateY(0);
   transition:transform .35s cubic-bezier(.4,0,.2,1);
-  }
+}
+.content-wrap.collapsed{transform:translateY(calc(100% - 40px))} /* остаётся только ручка */
 
-.shop.collapsed{transform:translateY(calc(100% - 170px))}
-
-/* Ручка для свайпа */
+/* Ручка */
 .shop-handle-area{
   padding:10px 0 6px;
   display:flex;justify-content:center;align-items:center;
-  cursor:grab;flex-shrink:0
+  cursor:grab;flex-shrink:0;
+  touch-action:none;
+  -webkit-user-select:none;user-select:none;
 }
 .shop-handle{width:60px;height:7px;background:#d4a860;border-radius:4px;box-shadow:0 2px 4px rgba(0,0,0,.3)}
 
-/* Контент вкладки — над вкладками */
+/* Контент вкладки */
 .tab-content{overflow-y:auto;padding:0 10px 12px;display:flex;flex-direction:column;gap:8px;flex:1;touch-action:pan-y}
 .tab-content::-webkit-scrollbar{width:0}
 .tab-content.hidden{display:none}
 
-/* === ВКЛАДКИ — В САМОМ НИЗУ === */
-.tabs{
-  display:flex;gap:6px;padding:10px 10px calc(10px + env(safe-area-inset-bottom,0px));
-  flex-shrink:0;
-  background:linear-gradient(180deg,#7a4f10 0%,#5a3a0a 100%);
-  border-top:4px solid #4a2f0a;
-}
-.tab{flex:1;padding:8px 6px;border-radius:14px;text-align:center;cursor:pointer;
-  background:rgba(0,0,0,.3);border:3px solid #4a2f0a;
-  color:#d4a860;font-weight:700;font-size:11px;transition:all .15s;
-  box-shadow:0 3px 0 #4a2f0a;user-select:none}
-.tab:active{transform:translateY(2px);box-shadow:0 1px 0 #4a2f0a}
-.tab.active{background:linear-gradient(180deg,#ffd966,#ffb800);color:#5a3a1a;border-color:#8a5f1a;
-  box-shadow:0 3px 0 #8a5f1a;transform:translateY(-2px)}
-.tab .tab-icon{font-size:22px;display:block;line-height:1;margin-bottom:2px}
-
+/* Карточки */
 .card{background:linear-gradient(180deg,#fffbe6,#ffe9a8);
   border:3px solid #5a3a1a;border-radius:16px;padding:10px 12px;
   display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform .1s;
@@ -122,7 +113,25 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .soon .title{font-size:20px;font-weight:700;color:#ffd966;margin-bottom:6px}
 .soon .sub{font-size:13px;color:#d4a860;line-height:1.5}
 
-.toast{position:fixed;bottom:calc(52vh + 20px);left:50%;transform:translateX(-50%) translateY(120px);
+/* === ВКЛАДКИ — ВСЕГДА ВНИЗУ ЭКРАНА === */
+.tabs{
+  position:absolute;bottom:0;left:0;right:0;z-index:20;
+  display:flex;gap:6px;
+  padding:10px 10px calc(10px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(180deg,#7a4f10 0%,#5a3a0a 100%);
+  border-top:4px solid #4a2f0a;
+  box-shadow:0 -4px 12px rgba(0,0,0,.4);
+}
+.tab{flex:1;padding:8px 6px;border-radius:14px;text-align:center;cursor:pointer;
+  background:rgba(0,0,0,.3);border:3px solid #4a2f0a;
+  color:#d4a860;font-weight:700;font-size:11px;transition:all .15s;
+  box-shadow:0 3px 0 #4a2f0a;user-select:none}
+.tab:active{transform:translateY(2px);box-shadow:0 1px 0 #4a2f0a}
+.tab.active{background:linear-gradient(180deg,#ffd966,#ffb800);color:#5a3a1a;border-color:#8a5f1a;
+  box-shadow:0 3px 0 #8a5f1a;transform:translateY(-2px)}
+.tab .tab-icon{font-size:22px;display:block;line-height:1;margin-bottom:2px}
+
+.toast{position:fixed;bottom:calc(44vh + 100px);left:50%;transform:translateX(-50%) translateY(120px);
   background:linear-gradient(180deg,#fffbe6,#ffe9a8);color:#3a2a0a;
   padding:10px 20px;border-radius:14px;font-size:14px;font-weight:600;
   transition:transform .3s;z-index:100;border:3px solid #8a5f1a;
@@ -153,12 +162,11 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
     </div>
   </div>
 
-  <div class="shop" id="shop">
+  <!-- Сворачиваемый контент (над вкладками) -->
+  <div class="content-wrap" id="contentWrap">
     <div class="shop-handle-area" id="handleArea">
       <div class="shop-handle"></div>
     </div>
-
-    <!-- Контент вкладок (НАД вкладками) -->
     <div class="tab-content" id="tab-tap"></div>
     <div class="tab-content hidden" id="tab-biz"></div>
     <div class="tab-content hidden" id="tab-casino">
@@ -168,13 +176,13 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
         <div class="sub">Рулетка, кости, слоты<br>и другие азартные игры</div>
       </div>
     </div>
+  </div>
 
-    <!-- ВКЛАДКИ — ВНИЗУ -->
-    <div class="tabs">
-      <div class="tab active" data-tab="tap"><span class="tab-icon">👆</span>Тап</div>
-      <div class="tab" data-tab="biz"><span class="tab-icon">🏢</span>Бизнес</div>
-      <div class="tab" data-tab="casino"><span class="tab-icon">🎰</span>Казино</div>
-    </div>
+  <!-- Вкладки — ВСЕГДА ВНИЗУ -->
+  <div class="tabs">
+    <div class="tab active" data-tab="tap"><span class="tab-icon">👆</span>Тап</div>
+    <div class="tab" data-tab="biz"><span class="tab-icon">🏢</span>Бизнес</div>
+    <div class="tab" data-tab="casino"><span class="tab-icon">🎰</span>Казино</div>
   </div>
 </div>
 
@@ -263,6 +271,7 @@ function buyBiz(id){const b=S.businesses.find(x=>x.id===id);if(!b||S.money<b.cos
  S.money-=b.cost;b.level++;b.income=b.baseIncome*Math.pow(1.15,b.level-1);b.cost=Math.floor(b.baseCost*Math.pow(1.18,b.level));
  tg?.HapticFeedback?.impactOccurred('medium');render()}
 
+// === ВКЛАДКИ (всегда внизу, всегда активны) ===
 document.querySelectorAll('.tab').forEach(t=>{
  t.addEventListener('click',e=>{
   e.stopPropagation();
@@ -271,49 +280,73 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.classList.add('active');
   $('tab-'+t.dataset.tab).classList.remove('hidden');
   tg?.HapticFeedback?.selectionChanged?.();
+  // При смене вкладки — разворачиваем контент
+  const wrap=$('contentWrap');
+  wrap.classList.remove('collapsed');
+  collapsed=false;
+  tg?.HapticFeedback?.impactOccurred('soft');
  });
 });
 
-// === СВАЙП ===
-const shop=$('shop');
+// === СВАЙП (только контент, вкладки не трогаем) ===
+const wrap=$('contentWrap');
 const handleArea=$('handleArea');
-let startY=0,curY=0,dragging=false,collapsed=false;
+let startY=0,curY=0,dragging=false,collapsed=false,moved=false;
 
-handleArea.addEventListener('pointerdown',e=>{
- dragging=true;startY=e.clientY;curY=startY;
- handleArea.setPointerCapture(e.pointerId);
- shop.style.transition='none';
-});
-handleArea.addEventListener('pointermove',e=>{
- if(!dragging)return;
- curY=e.clientY;
- const dy=curY-startY;
- const max=window.innerHeight*0.52-170;
- let offset=dy;
- if(collapsed) offset=Math.max(-max,Math.min(0,dy+max));
- else offset=Math.max(0,Math.min(max,dy));
- const shifted=(collapsed?max:0)+offset;
- shop.style.transform=`translateY(${shifted}px)`;
-});
-handleArea.addEventListener('pointerup',()=>{
- if(!dragging)return;
- dragging=false;
- shop.style.transition='';
- const dy=curY-startY;
- const threshold=40;
- if(!collapsed&&dy>threshold){collapsed=true;shop.classList.add('collapsed');shop.style.transform='';tg?.HapticFeedback?.impactOccurred('soft')}
- else if(collapsed&&dy<-threshold){collapsed=false;shop.classList.remove('collapsed');shop.style.transform='';tg?.HapticFeedback?.impactOccurred('soft')}
- else{shop.style.transform=''}
-});
+function onStart(e){
+  const t=e.touches?e.touches[0]:e;
+  startY=t.clientY;curY=startY;
+  dragging=true;moved=false;
+  wrap.style.transition='none';
+}
+function onMove(e){
+  if(!dragging)return;
+  const t=e.touches?e.touches[0]:e;
+  curY=t.clientY;
+  const dy=curY-startY;
+  if(Math.abs(dy)>5) moved=true;
+  const max=window.innerHeight*0.44-40;
+  let offset=dy;
+  if(collapsed) offset=Math.max(-max,Math.min(0,dy+max));
+  else offset=Math.max(0,Math.min(max,dy));
+  const shifted=(collapsed?max:0)+offset;
+  wrap.style.transform=`translateY(${shifted}px)`;
+  if(e.cancelable) e.preventDefault();
+}
+function onEnd(){
+  if(!dragging)return;
+  dragging=false;
+  wrap.style.transition='';
+  const dy=curY-startY;
+  const threshold=30;
+  if(!collapsed&&dy>threshold){
+    collapsed=true;wrap.classList.add('collapsed');wrap.style.transform='';
+    tg?.HapticFeedback?.impactOccurred('soft');
+  } else if(collapsed&&dy<-threshold){
+    collapsed=false;wrap.classList.remove('collapsed');wrap.style.transform='';
+    tg?.HapticFeedback?.impactOccurred('soft');
+  } else {
+    wrap.style.transform='';
+  }
+  setTimeout(()=>{moved=false},50);
+}
+
+handleArea.addEventListener('touchstart',onStart,{passive:true});
+handleArea.addEventListener('touchmove',onMove,{passive:false});
+handleArea.addEventListener('touchend',onEnd);
+handleArea.addEventListener('touchcancel',onEnd);
+handleArea.addEventListener('mousedown',onStart);
+window.addEventListener('mousemove',e=>{if(dragging)onMove(e)});
+window.addEventListener('mouseup',()=>{if(dragging)onEnd()});
 handleArea.addEventListener('click',()=>{
- if(Math.abs(curY-startY)<8){
+  if(moved) return;
   collapsed=!collapsed;
-  shop.classList.toggle('collapsed',collapsed);
-  shop.style.transform='';
+  wrap.classList.toggle('collapsed',collapsed);
+  wrap.style.transform='';
   tg?.HapticFeedback?.impactOccurred('soft');
- }
 });
 
+// === ТАП ПО ЭКРАНУ ===
 $('tapZone').addEventListener('pointerdown',e=>{
  S.money+=S.perTap;
  tg?.HapticFeedback?.impactOccurred('light');
@@ -337,4 +370,4 @@ render();
 if(offEarn>0.5)setTimeout(()=>toast('💰 Оффлайн-доход: +'+fmt(offEarn)),600);
 </script>
 </body>
-  </html> 
+        </html>
