@@ -20,7 +20,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .s6{background-image:url('scene6.png')}
 .s7{background-image:url('scene7.png')}
 
-/* === ПЕРСОНАЖ === */
 #char{
   position:absolute;
   bottom:48%;
@@ -192,7 +191,7 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 <body>
 <div id="app">
   <div id="bg" class="s1"></div>
-  <img id="char" src="char1.png" alt="">
+  <img id="char" src="char1.jpg" alt="">
   <div class="tap-zone" id="tapZone"></div>
 
   <div class="top">
@@ -250,15 +249,14 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 <script>
 const tg=window.Telegram?.WebApp;tg?.ready();tg?.expand();tg?.setHeaderColor?.('#6a4a1a');
 
-// === СЦЕНЫ: фон + персонаж отдельно ===
 const SC=[
  {min:0,    cls:'s1',char:'char1.jpg',name:'🌧️ Бомж с коробкой'},
  {min:1e3,  cls:'s2',char:'char2.jpg',name:'🏚️ Работяга'},
  {min:1e5,  cls:'s3',char:'char3.jpg',name:'🏠 Средний класс'},
- {min:1e6,  cls:'s4',char:'char4',name:'🏢 Бизнесмен'},
- {min:1e7,  cls:'s5',char:'char5',name:'🏡 Богач'},
- {min:1e9,  cls:'s6',char:'char6',name:'💎 Магнат'},
- {min:1e11, cls:'s7',char:'char7',name:'🚀 Миллиардер'}
+ {min:1e6,  cls:'s4',char:'char4.jpg',name:'🏢 Бизнесмен'},
+ {min:1e7,  cls:'s5',char:'char5.jpg',name:'🏡 Богач'},
+ {min:1e9,  cls:'s6',char:'char6.jpg',name:'💎 Магнат'},
+ {min:1e11, cls:'s7',char:'char7.jpg',name:'🚀 Миллиардер'}
 ];
 
 const DEF={money:0,perTap:1,tapLevel:0,tapCost:10,currentScene:0,music:true,businesses:[
@@ -287,7 +285,6 @@ function getPS(){return S.businesses.reduce((s,b)=>s+b.level*b.baseIncome,0)}
 function sceneIdx(){let i=0;for(let k=0;k<SC.length;k++)if(S.money>=SC[k].min)i=k;return i}
 function toast(m,duration){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),duration||2200)}
 
-// === АУДИО ===
 const audio=new Audio('music.mp3');
 audio.loop=true;audio.volume=0.3;
 document.addEventListener('click',()=>{if(S.music&&audio.paused)audio.play().catch(()=>{})},{once:true});
@@ -375,7 +372,6 @@ document.querySelectorAll('.tab').forEach(t=>{
  });
 });
 
-// === СВАЙП ===
 const content=$('content');
 const handleArea=$('handleArea');
 let startY=0,curY=0,dragging=false,collapsed=false,moved=false;
@@ -405,7 +401,6 @@ handleArea.addEventListener('mousedown',onStart);
 window.addEventListener('mousemove',e=>{if(dragging)onMove(e)});
 window.addEventListener('mouseup',()=>{if(dragging)onEnd()});
 
-// === СБРОС ===
 $('cancelReset').addEventListener('click',()=>{$('resetModal').classList.remove('show')});
 $('confirmReset').addEventListener('click',()=>{
  localStorage.removeItem('tapGame');
@@ -419,7 +414,6 @@ $('confirmReset').addEventListener('click',()=>{
  tg?.HapticFeedback?.notificationOccurred('success');
 });
 
-// === ТАП ПО ЭКРАНУ ===
 $('tapZone').addEventListener('pointerdown',e=>{
  S.money+=S.perTap;
  tg?.HapticFeedback?.impactOccurred('light');
@@ -431,7 +425,6 @@ $('tapZone').addEventListener('pointerdown',e=>{
  r.className='tap-ring';
  r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
  document.body.appendChild(r);setTimeout(()=>r.remove(),600);
- // Анимация персонажа
  const c=$('char');c.classList.remove('tapped');void c.offsetWidth;c.classList.add('tapped');
  renderHead();renderScene();save();
 });
@@ -446,4 +439,8 @@ if(offEarn>0.5){
  const t=$('toast');
  t.textContent='💰 Оффлайн-доход: +'+fmt(offEarn);
  t.classList.add('show');
- setTimeout(()=>{t.classList.remove('show')},
+ setTimeout(()=>{t.classList.remove('show')},5000);
+}
+</script>
+</body>
+        </html>
