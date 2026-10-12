@@ -11,16 +11,10 @@
 html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 #app{height:100vh;position:relative;overflow:hidden}
 
-/* === ФОН СЦЕН === */
-#bg{position:absolute;inset:0;transition:all .6s ease}
-.s1{background:linear-gradient(180deg,#4a5a6b 0%,#6b7c8c 55%,#3a4a3a 55%,#2a3a2a 100%)}
-.s2{background:linear-gradient(180deg,#7a8a9b 0%,#9aaabb 55%,#6b8a5a 55%,#4a6a3a 100%)}
-.s3{background:linear-gradient(180deg,#7ec8ff 0%,#b8e0ff 55%,#7fc65f 55%,#5aa63f 100%)}
-.s4{background:linear-gradient(180deg,#5fb8ff 0%,#a8dcff 55%,#6bc04a 55%,#4a9a30 100%)}
-.s5{background:linear-gradient(180deg,#ffb347 0%,#ffd88a 55%,#7fc65f 55%,#4a9a30 100%)}
-.s6{background:linear-gradient(180deg,#ff9a3c 0%,#ffc76a 55%,#5fb8ff 55%,#3a88dd 100%)}
-.s7{background:linear-gradient(180deg,#2a1a4a 0%,#6a2a9a 55%,#b84aff 55%,#7a1ab8 100%)}
-
+/* === ФОН СЦЕН (PNG) === */
+#bg{position:absolute;inset:0;transition:all .6s ease;background-size:cover;background-position:center}
+.s1{background-image:url('scene1.png')}
+  
 /* Солнце/луна */
 .sun{position:absolute;top:6%;right:8%;width:70px;height:70px;border-radius:50%;
   background:radial-gradient(circle,#fff8b0,#ffd700);box-shadow:0 0 60px rgba(255,215,0,.7);z-index:1}
