@@ -22,10 +22,10 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 
 #char{
   position:absolute;
-  bottom:48%;
+  bottom:28%;
   left:50%;
   transform:translateX(-50%);
-  height:38vh;
+  height:42vh;
   width:auto;
   z-index:3;
   pointer-events:none;
@@ -88,19 +88,14 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .content.collapsed{transform:translateY(calc(100% - 30px))}
 
 .shop-handle-area{
-  padding:14px 0 10px;
+  padding:6px 0 4px;
   display:flex;justify-content:center;align-items:center;
   cursor:grab;flex-shrink:0;
   touch-action:none;-webkit-user-select:none;user-select:none;
   position:relative;
 }
-.shop-handle{width:60px;height:7px;background:#d4a860;border-radius:4px;box-shadow:0 2px 4px rgba(0,0,0,.3);transition:opacity .3s}
-.shop-handle-area::before{
-  content:'▲';position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);font-size:16px;color:#d4a860;opacity:0;transition:opacity .3s;
-}
-.content.collapsed .shop-handle-area::before{opacity:1}
-.content.collapsed .shop-handle{opacity:0}
+.shop-handle{width:50px;height:5px;background:#d4a860;border-radius:3px;opacity:.4;transition:opacity .3s}
+.content.collapsed .shop-handle{opacity:.7}
 
 .tab-content{overflow-y:auto;padding:0 10px 12px;display:flex;flex-direction:column;gap:8px;flex:1;touch-action:pan-y}
 .tab-content::-webkit-scrollbar{width:0}
