@@ -96,7 +96,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .card.biz:not(.dis):active{box-shadow:0 1px 0 #2a6a1a}
 .card.biz .cpv{color:#1a5a0a}
 
-/* Карточки настроек */
 .card.set{background:linear-gradient(180deg,#e6f0ff,#b8d4f0);border-color:#1a4a8a;box-shadow:0 4px 0 #1a4a8a}
 .card.set:not(.dis):active{box-shadow:0 1px 0 #1a4a8a}
 .card.set .cpv{color:#1a4a8a}
@@ -115,7 +114,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .cpv{font-size:14px;font-weight:700;color:#8a5f1a;text-shadow:0 1px 0 #fff}
 .cpl{font-size:9px;color:#6a4a1a;font-weight:600;text-transform:uppercase}
 
-/* Переключатель (toggle) */
 .toggle{width:52px;height:28px;border-radius:14px;background:#8a5f1a;position:relative;
   transition:background .25s;flex-shrink:0;cursor:pointer;border:2px solid #5a3a1a}
 .toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;
@@ -145,7 +143,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
   box-shadow:0 3px 0 #8a5f1a;transform:translateY(-2px)}
 .tab .tab-icon{font-size:20px;display:block;line-height:1;margin-bottom:2px}
 
-/* Модалка подтверждения сброса */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;
   display:none;align-items:center;justify-content:center;padding:20px}
 .modal.show{display:flex}
@@ -216,7 +213,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
   </div>
 </div>
 
-<!-- Модалка сброса -->
 <div class="modal" id="resetModal">
   <div class="modal-box">
     <div class="modal-title">⚠️ Сбросить прогресс?</div>
@@ -264,16 +260,17 @@ function fmt(n){
 }
 function getPS(){return S.businesses.reduce((s,b)=>s+b.level*b.baseIncome,0)}
 function sceneIdx(){let i=0;for(let k=0;k<SC.length;k++)if(S.money>=SC[k].min)i=k;return i}
-function toast(m,duration){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),duration||2200)}
+function toast(m,duration){
+ const t=$('toast');
+ t.textContent=m;
+ t.classList.add('show');
+ clearTimeout(t._t);
+ t._t=setTimeout(()=>{t.classList.remove('show')},duration||2200);
+}
 
 // === АУДИО ===
 const audio=new Audio('music.mp3');
 audio.loop=true;audio.volume=0.3;
-function startMusic(){
- if(S.music){
-  audio.play().catch(()=>{}); // браузер может блокировать до первого тапа
- }
-}
 document.addEventListener('click',()=>{if(S.music&&audio.paused)audio.play().catch(()=>{})},{once:true});
 
 function renderScene(){
@@ -317,11 +314,9 @@ function renderBiz(){
 
 function renderSettings(){
  const el=$('tab-settings');el.innerHTML='';
- // Музыка
  const music=document.createElement('div');
  music.className='card set';
- music.innerHTML=`<div class="ci">🎵</div><div class="cinfo"><div class="cname">Музыка</div><div class="cdesc">${S.music?'Включена':'Выключена'}</div></div><div class="toggle${S.music?' on':''}" id="musicToggle"></div>`;
- el.appendChild(music);
+ music.innerHTML=`<div class="ci">🎵</div><div class="cinfo"><div class="cname">Музыка</div><div class="cdesc">${S.music?'Включена':'Выключена'}</div></div><div class="toggle${S.music?' on':''}"></div>`;
  music.onclick=e=>{
   e.stopPropagation();
   S.music=!S.music;
@@ -329,17 +324,18 @@ function renderSettings(){
   tg?.HapticFeedback?.impactOccurred('medium');
   save();renderSettings();
  };
- // Сброс
+ el.appendChild(music);
+
  const reset=document.createElement('div');
  reset.className='card danger';
  reset.innerHTML=`<div class="ci">🗑️</div><div class="cinfo"><div class="cname">Сбросить прогресс</div><div class="cdesc">Начать заново с нуля</div></div>`;
- el.appendChild(reset);
  reset.onclick=e=>{
   e.stopPropagation();
   $('resetModal').classList.add('show');
   tg?.HapticFeedback?.impactOccurred('medium');
  };
- // Инфо
+ el.appendChild(reset);
+
  const info=document.createElement('div');
  info.className='card dis';
  info.innerHTML=`<div class="ci">ℹ️</div><div class="cinfo"><div class="cname">From Box to Billionaire</div><div class="cdesc">Версия 1.0</div></div>`;
@@ -425,7 +421,14 @@ $('cancelReset').addEventListener('click',()=>{
 });
 $('confirmReset').addEventListener('click',()=>{
  localStorage.removeItem('tapGame');
- location.reload();
+ try{localStorage.clear()}catch(e){}
+ S=JSON.parse(JSON.stringify(DEF));
+ S.lastTime=Date.now();
+ $('resetModal').classList.remove('show');
+ try{audio.pause();audio.currentTime=0}catch(e){}
+ render();
+ toast('🗑️ Прогресс сброшен!',2500);
+ tg?.HapticFeedback?.notificationOccurred('success');
 });
 
 // === ТАП ПО ЭКРАНУ ===
@@ -448,14 +451,16 @@ setInterval(()=>{const t=Date.now(),dt=(t-lt)/1000;lt=t;
  const inc=getPS()*dt;if(inc>0){S.money+=inc;renderHead();renderScene()}S.lastTime=t},100);
 setInterval(save,5000);
 window.addEventListener('beforeunload',save);
+
 render();
-// Оффлайн-доход показываем ТОЛЬКО 5 секунд
+
+// === ОФФЛАЙН-ДОХОД (плашка показывается ТОЛЬКО 5 сек) ===
 if(offEarn>0.5){
  const t=$('toast');
  t.textContent='💰 Оффлайн-доход: +'+fmt(offEarn);
  t.classList.add('show');
- setTimeout(()=>t.classList.remove('show'),5000);
+ setTimeout(()=>{t.classList.remove('show')},5000);
 }
 </script>
 </body>
-  </html> 
+        </html> 
