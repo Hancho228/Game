@@ -3,113 +3,186 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>💰 Tap Empire</title>
+<title>💰 From Box to Billionaire</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;font-family:-apple-system,sans-serif;color:#fff;user-select:none;background:#000}
-#app{height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden}
-#bg{position:absolute;inset:0;transition:opacity .5s;z-index:0}
-.s1{background:linear-gradient(160deg,#2c3e50,#4b6584,#1e272e)}
-.s2{background:linear-gradient(160deg,#4a4e69,#6b7280,#374151)}
-.s3{background:linear-gradient(160deg,#5c6b73,#7f9eb2,#a8c0cc)}
-.s4{background:linear-gradient(160deg,#2c5364,#203a43,#0f2027)}
-.s5{background:linear-gradient(160deg,#134e5e,#71b280,#2ecc71)}
-.s6{background:linear-gradient(160deg,#b8860b,#ffd700,#ffed4e)}
-.s7{background:linear-gradient(160deg,#1a0033,#4b0082,#ff00ff)}
-.rain{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background-image:repeating-linear-gradient(100deg,transparent,transparent 8px,rgba(255,255,255,.15) 8px,rgba(255,255,255,.15) 9px);
-  animation:rainMove .5s linear infinite;opacity:.4}
-@keyframes rainMove{to{background-position:-20px 60px}}
-#char{position:absolute;bottom:42%;left:50%;transform:translateX(-50%);font-size:130px;z-index:1;
-  filter:drop-shadow(0 10px 30px rgba(0,0,0,.6));animation:idle 3s ease-in-out infinite}
-@keyframes idle{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
-.top{position:relative;z-index:5;padding:12px;display:flex;flex-direction:column;gap:8px}
-.bal-card{background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:12px;text-align:center;backdrop-filter:blur(12px)}
-.bal-label{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:2px}
-.bal{font-size:32px;font-weight:800;background:linear-gradient(135deg,#ffd700,#ffed4e,#ffa500);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
-.scene-name{font-size:12px;color:rgba(255,255,255,.85);font-weight:600;margin-top:2px}
-.prog-wrap{margin-top:8px;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
-.prog-bar{height:100%;background:linear-gradient(90deg,#00d4ff,#00e676);border-radius:3px;transition:width .4s;width:0}
-.prog-txt{font-size:10px;color:rgba(255,255,255,.6);margin-top:4px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Fredoka',sans-serif}
+html,body{height:100%;overflow:hidden;user-select:none;background:#000}
+#app{height:100vh;position:relative;overflow:hidden}
+
+/* === ФОН СЦЕН === */
+#bg{position:absolute;inset:0;transition:all .6s ease}
+.s1{background:linear-gradient(180deg,#4a5a6b 0%,#6b7c8c 55%,#3a4a3a 55%,#2a3a2a 100%)}
+.s2{background:linear-gradient(180deg,#7a8a9b 0%,#9aaabb 55%,#6b8a5a 55%,#4a6a3a 100%)}
+.s3{background:linear-gradient(180deg,#7ec8ff 0%,#b8e0ff 55%,#7fc65f 55%,#5aa63f 100%)}
+.s4{background:linear-gradient(180deg,#5fb8ff 0%,#a8dcff 55%,#6bc04a 55%,#4a9a30 100%)}
+.s5{background:linear-gradient(180deg,#ffb347 0%,#ffd88a 55%,#7fc65f 55%,#4a9a30 100%)}
+.s6{background:linear-gradient(180deg,#ff9a3c 0%,#ffc76a 55%,#5fb8ff 55%,#3a88dd 100%)}
+.s7{background:linear-gradient(180deg,#2a1a4a 0%,#6a2a9a 55%,#b84aff 55%,#7a1ab8 100%)}
+
+/* Солнце/луна */
+.sun{position:absolute;top:6%;right:8%;width:70px;height:70px;border-radius:50%;
+  background:radial-gradient(circle,#fff8b0,#ffd700);box-shadow:0 0 60px rgba(255,215,0,.7);z-index:1}
+.s7 .sun{background:radial-gradient(circle,#fff,#e0a8ff);box-shadow:0 0 60px rgba(200,100,255,.8)}
+
+/* Облака */
+.cloud{position:absolute;background:rgba(255,255,255,.85);border-radius:50px;z-index:1;opacity:.9}
+.cloud::before,.cloud::after{content:'';position:absolute;background:inherit;border-radius:50%}
+.cloud::before{width:60%;height:120%;top:-40%;left:15%}
+.cloud::after{width:50%;height:100%;top:-30%;right:15%}
+.c1{width:90px;height:28px;top:10%;left:5%;animation:drift 40s linear infinite}
+.c2{width:70px;height:22px;top:18%;right:15%;animation:drift 55s linear infinite reverse}
+.c3{width:110px;height:32px;top:4%;left:35%;animation:drift 70s linear infinite}
+@keyframes drift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
+
+/* Дождь для сцены 1 */
+.rain{position:absolute;inset:0;z-index:2;pointer-events:none;display:none;
+  background-image:repeating-linear-gradient(105deg,transparent,transparent 10px,rgba(180,200,220,.4) 10px,rgba(180,200,220,.4) 11px);
+  animation:rainMove .4s linear infinite}
+@keyframes rainMove{to{background-position:-30px 80px}}
+.s1 .rain,.s2 .rain{display:block}
+
+/* === ПЕРСОНАЖ === */
+#char{position:absolute;bottom:38%;left:50%;transform:translateX(-50%);font-size:150px;z-index:3;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));transition:font-size .4s;line-height:1}
+#char.tapped{animation:tapPop .3s ease}
+@keyframes tapPop{0%{transform:translateX(-50%) scale(1)}40%{transform:translateX(-50%) scale(1.15) rotate(-3deg)}100%{transform:translateX(-50%) scale(1)}}
+
+/* Коробка-дом для 1 уровня */
+.box-house{position:absolute;bottom:24%;left:50%;transform:translateX(-50%);z-index:2;
+  width:120px;height:100px;background:linear-gradient(135deg,#b8895a,#8a5f3a);
+  border:4px solid #5a3a1a;border-radius:6px;
+  box-shadow:inset -10px -10px 0 rgba(0,0,0,.2),0 8px 0 #4a2f1a}
+.box-house::before{content:'';position:absolute;top:-8px;left:-8px;right:-8px;height:14px;
+  background:#a87545;border:4px solid #5a3a1a;border-radius:4px}
+.box-house::after{content:'📦';position:absolute;top:-30px;right:-20px;font-size:30px}
+
+/* === UI ШАПКА === */
+.top{position:relative;z-index:10;padding:12px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.top>*{pointer-events:auto}
+.bal-card{background:linear-gradient(180deg,#fffbe6,#ffe9a8);
+  border:4px solid #8a5f1a;border-radius:22px;padding:10px 14px;text-align:center;
+  box-shadow:0 6px 0 #8a5f1a,0 10px 20px rgba(0,0,0,.3)}
+.bal-label{font-size:11px;color:#8a5f1a;font-weight:600;text-transform:uppercase;letter-spacing:1.5px}
+.bal{font-size:34px;font-weight:700;color:#5a3a1a;line-height:1.1;text-shadow:0 2px 0 #fff}
+.scene-name{font-size:13px;color:#6a4a1a;font-weight:600;margin-top:2px}
+.prog-wrap{margin-top:8px;height:10px;background:#d4a860;border:2px solid #8a5f1a;border-radius:6px;overflow:hidden}
+.prog-bar{height:100%;background:linear-gradient(90deg,#4adf4a,#22b822);border-radius:4px;transition:width .4s;width:0;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}
+.prog-txt{font-size:10px;color:#6a4a1a;margin-top:4px;font-weight:600}
+
 .stats{display:flex;gap:8px}
-.stat{flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:6px;text-align:center;backdrop-filter:blur(8px)}
-.stat-v{font-size:14px;font-weight:700;color:#00d4ff}
-.stat-l{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase}
-.tap-area{flex:1;position:relative;z-index:5;display:flex;align-items:center;justify-content:center;min-height:0}
-#tapBtn{width:140px;height:140px;border-radius:50%;border:none;
-  background:radial-gradient(circle at 30% 30%,#ffe066,#ffd700 40%,#b8860b);
-  box-shadow:0 0 0 6px rgba(255,215,0,.2),0 0 40px rgba(255,215,0,.6),inset 0 -8px 20px rgba(0,0,0,.3),inset 0 8px 20px rgba(255,255,255,.4);
-  font-size:55px;cursor:pointer;transition:transform .08s;display:flex;align-items:center;justify-content:center;position:relative}
-#tapBtn:active{transform:scale(.9)}
-#tapBtn::after{content:'';position:absolute;inset:-14px;border-radius:50%;border:2px solid rgba(255,215,0,.3);animation:pulse 2.5s ease-out infinite}
-@keyframes pulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.5);opacity:0}}
-.float{position:absolute;font-size:22px;font-weight:800;color:#ffd700;
-  text-shadow:0 0 12px rgba(255,215,0,1),0 2px 4px rgba(0,0,0,.8);pointer-events:none;
-  animation:fup .9s ease-out forwards;z-index:10}
-@keyframes fup{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-180%) scale(1.5);opacity:0}}
-.shop{position:relative;z-index:5;max-height:34vh;overflow-y:auto;padding:10px 12px 14px;
-  display:flex;flex-direction:column;gap:8px;
-  background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.4));
-  backdrop-filter:blur(14px);border-top-left-radius:24px;border-top-right-radius:24px;border-top:1px solid rgba(255,255,255,.15)}
+.stat{flex:1;background:linear-gradient(180deg,#a8dcff,#5fb8ff);
+  border:3px solid #2a6a9a;border-radius:14px;padding:6px;text-align:center;box-shadow:0 4px 0 #2a6a9a}
+.stat-v{font-size:15px;font-weight:700;color:#fff;text-shadow:0 2px 0 #2a6a9a}
+.stat-l{font-size:9px;color:#fff;text-transform:uppercase;font-weight:600;text-shadow:0 1px 0 #2a6a9a}
+
+/* === ЗОНА ТАПА === */
+.tap-zone{position:absolute;inset:0;z-index:5;cursor:pointer}
+
+/* Float +N */
+.float{position:absolute;font-size:26px;font-weight:700;color:#fff;
+  text-shadow:0 0 8px #ffd700,0 3px 0 #b8860b,0 0 20px #ffd700;
+  pointer-events:none;animation:fup 1s ease-out forwards;z-index:20;transform:translate(-50%,-50%)}
+@keyframes fup{0%{transform:translate(-50%,-50%) scale(.6);opacity:1}30%{transform:translate(-50%,-80%) scale(1.2)}100%{transform:translate(-50%,-180%) scale(1);opacity:0}}
+
+/* Тап-эффект */
+.tap-ring{position:absolute;width:80px;height:80px;border:3px solid #ffd700;border-radius:50%;
+  transform:translate(-50%,-50%);pointer-events:none;animation:ring .6s ease-out forwards;z-index:15}
+@keyframes ring{0%{width:20px;height:20px;opacity:1}100%{width:120px;height:120px;opacity:0}}
+
+/* === МАГАЗИН === */
+.shop{position:absolute;bottom:0;left:0;right:0;z-index:15;
+  max-height:42vh;overflow-y:auto;padding:10px 10px 16px;display:flex;flex-direction:column;gap:8px;
+  background:linear-gradient(180deg,#8a5f1a 0%,#6a4a1a 100%);
+  border-top:5px solid #4a2f0a;border-radius:24px 24px 0 0;
+  box-shadow:0 -6px 20px rgba(0,0,0,.5)}
 .shop::-webkit-scrollbar{width:0}
-.card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;
-  padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s}
-.card:not(.dis):active{transform:scale(.97);background:rgba(255,255,255,.13)}
-.card.dis{opacity:.4;cursor:not-allowed}
-.ci{font-size:24px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.08);border-radius:10px;flex-shrink:0}
+.shop-handle{width:50px;height:6px;background:#d4a860;border-radius:3px;margin:0 auto 4px;flex-shrink:0}
+
+.card{background:linear-gradient(180deg,#fffbe6,#ffe9a8);
+  border:3px solid #5a3a1a;border-radius:16px;padding:10px 12px;
+  display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform .1s;
+  box-shadow:0 4px 0 #5a3a1a;flex-shrink:0}
+.card:not(.dis):active{transform:translateY(3px);box-shadow:0 1px 0 #5a3a1a}
+.card.dis{opacity:.5;cursor:not-allowed;filter:grayscale(.4)}
+
+.card.biz{background:linear-gradient(180deg,#e6ffdc,#b8f0a8);border-color:#2a6a1a;box-shadow:0 4px 0 #2a6a1a}
+.card.biz:not(.dis):active{box-shadow:0 1px 0 #2a6a1a}
+.card.biz .cpv{color:#1a5a0a}
+
+.ci{font-size:26px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.6);border-radius:12px;flex-shrink:0;border:2px solid rgba(90,58,26,.3)}
 .cinfo{flex:1;min-width:0}
-.cname{font-size:13px;font-weight:700}
-.cdesc{font-size:10px;color:rgba(255,255,255,.6)}
-.lvl{display:inline-block;background:rgba(0,212,255,.25);color:#00d4ff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:6px;margin-left:4px}
+.cname{font-size:14px;font-weight:700;color:#3a2a0a}
+.cdesc{font-size:11px;color:#6a4a1a;font-weight:500;margin-top:1px}
+.lvl{display:inline-block;background:#ffd700;color:#5a3a1a;font-size:10px;font-weight:700;
+  padding:1px 8px;border-radius:8px;margin-left:6px;border:2px solid #8a5f1a}
 .cprice{text-align:right;flex-shrink:0}
-.cpv{font-size:13px;font-weight:800;color:#ffd700}
-.cpl{font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase}
-.card.biz{background:linear-gradient(135deg,rgba(0,230,118,.12),rgba(255,255,255,.05));border-color:rgba(0,230,118,.25)}
-.card.biz .cpv{color:#00e676}
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(120px);
-  background:rgba(0,0,0,.9);color:#fff;padding:10px 20px;border-radius:12px;font-size:13px;
-  transition:transform .3s;z-index:100;border:1px solid rgba(255,215,0,.4);white-space:nowrap}
+.cpv{font-size:14px;font-weight:700;color:#8a5f1a;text-shadow:0 1px 0 #fff}
+.cpl{font-size:9px;color:#6a4a1a;font-weight:600;text-transform:uppercase}
+
+/* Toast */
+.toast{position:fixed;bottom:calc(42vh + 20px);left:50%;transform:translateX(-50%) translateY(120px);
+  background:linear-gradient(180deg,#fffbe6,#ffe9a8);color:#3a2a0a;
+  padding:10px 20px;border-radius:14px;font-size:14px;font-weight:600;
+  transition:transform .3s;z-index:100;border:3px solid #8a5f1a;
+  box-shadow:0 4px 0 #8a5f1a;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:50;transition:opacity .4s}
-.flash.on{opacity:.7}
+
+/* Flash при смене сцены */
+.flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:200;transition:opacity .35s}
+.flash.on{opacity:.85}
 </style>
 </head>
 <body>
 <div id="app">
-<div id="bg" class="s1"></div>
-<div class="rain" id="rain"></div>
-<div id="char">🧍</div>
-<div class="top">
-  <div class="bal-card">
-    <div class="bal-label">Баланс</div>
-    <div class="bal">💰 <span id="money">0</span></div>
-    <div class="scene-name" id="sn">🌧️ На дне</div>
-    <div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
-    <div class="prog-txt" id="pt">До след. уровня: 1.0K</div>
+  <div id="bg" class="s1">
+    <div class="sun"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="rain"></div>
+    <div class="box-house" id="boxHouse"></div>
   </div>
-  <div class="stats">
-    <div class="stat"><div class="stat-v" id="ptap">1</div><div class="stat-l">За тап</div></div>
-    <div class="stat"><div class="stat-v" id="psec">0</div><div class="stat-l">В секунду</div></div>
+
+  <div id="char">🧍</div>
+
+  <div class="tap-zone" id="tapZone"></div>
+
+  <div class="top">
+    <div class="bal-card">
+      <div class="bal-label">Баланс</div>
+      <div class="bal">💰 <span id="money">0</span></div>
+      <div class="scene-name" id="sn">🌧️ Бомж с коробкой</div>
+      <div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
+      <div class="prog-txt" id="pt">До след. уровня: 1.0K</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-v" id="ptap">1</div><div class="stat-l">За тап</div></div>
+      <div class="stat"><div class="stat-v" id="psec">0</div><div class="stat-l">В сек</div></div>
+    </div>
+  </div>
+
+  <div class="shop" id="shop">
+    <div class="shop-handle"></div>
   </div>
 </div>
-<div class="tap-area" id="ta"><button id="tapBtn">👆</button></div>
-<div class="shop" id="shop"></div>
-</div>
+
 <div class="flash" id="flash"></div>
 <div class="toast" id="toast"></div>
+
 <script>
-const tg=window.Telegram?.WebApp;tg?.ready();tg?.expand();tg?.setHeaderColor?.('#0f0c29');
+const tg=window.Telegram?.WebApp;tg?.ready();tg?.expand();tg?.setHeaderColor?.('#6a4a1a');
 const SC=[
- {min:0,cls:'s1',char:'🧍',name:'🌧️ На дне'},
- {min:1e3,cls:'s2',char:'🧑‍🔧',name:'🏚️ Работяга'},
- {min:1e5,cls:'s3',char:'🧑‍💼',name:'🏠 Средний класс'},
- {min:1e6,cls:'s4',char:'👨‍💼',name:'🏢 Бизнесмен'},
- {min:1e7,cls:'s5',char:'🕴️',name:'🏡 Богач'},
- {min:1e9,cls:'s6',char:'🤵',name:'💎 Магнат'},
- {min:1e11,cls:'s7',char:'👑',name:'🚀 Миллиардер'}
+ {min:0,    cls:'s1',char:'🧍',    name:'🌧️ Бомж с коробкой'},
+ {min:1e3,  cls:'s2',char:'🧑‍🔧',name:'🏚️ Работяга'},
+ {min:1e5,  cls:'s3',char:'🧑‍💼',name:'🏠 Средний класс'},
+ {min:1e6,  cls:'s4',char:'👨‍💼',name:'🏢 Бизнесмен'},
+ {min:1e7,  cls:'s5',char:'🕴️',name:'🏡 Богач'},
+ {min:1e9,  cls:'s6',char:'🤵',   name:'💎 Магнат'},
+ {min:1e11, cls:'s7',char:'👑',   name:'🚀 Миллиардер'}
 ];
 const DEF={money:0,perTap:1,tapLevel:0,tapCost:10,currentScene:0,businesses:[
  {id:'coffee',name:'Кофейня',icon:'☕',level:0,baseIncome:1,baseCost:50,income:1,cost:50},
@@ -133,34 +206,41 @@ function fmt(n){
 }
 function getPS(){return S.businesses.reduce((s,b)=>s+b.level*b.baseIncome,0)}
 function sceneIdx(){let i=0;for(let k=0;k<SC.length;k++)if(S.money>=SC[k].min)i=k;return i}
-function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2000)}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200)}
+
 function renderScene(){
  const i=sceneIdx(),sc=SC[i];
  if(i!==S.currentScene){
-  const f=$('flash');f.classList.add('on');setTimeout(()=>f.classList.remove('on'),100);
-  S.currentScene=i;$('char').textContent=sc.char;tg?.HapticFeedback?.notificationOccurred('success');
+  const f=$('flash');f.classList.add('on');setTimeout(()=>f.classList.remove('on'),80);
+  S.currentScene=i;tg?.HapticFeedback?.notificationOccurred('success');
   toast('🎉 Новый уровень: '+sc.name);renderShop();
  }
- $('bg').className=sc.cls;$('char').textContent=sc.char;$('sn').textContent=sc.name;
- $('rain').style.display=i<=1?'block':'none';
+ $('bg').className=sc.cls;
+ $('char').textContent=sc.char;
+ $('sn').textContent=sc.name;
+ $('boxHouse').style.display=i===0?'block':'none';
  const nx=SC[i+1];
- if(nx){const p=Math.min(100,((S.money-sc.min)/(nx.min-sc.min))*100);$('pb').style.width=p+'%';
+ if(nx){const p=Math.min(100,((S.money-sc.min)/(nx.min-sc.min))*100);
+  $('pb').style.width=p+'%';
   $('pt').textContent='До "'+nx.name+'": '+fmt(nx.min-S.money)}
  else{$('pb').style.width='100%';$('pt').textContent='🏆 Максимальный уровень!'}
 }
+
 function renderShop(){
- const sh=$('shop');sh.innerHTML='';
+ const sh=$('shop');
+ sh.innerHTML='<div class="shop-handle"></div>';
  const t=document.createElement('div');
  t.className='card'+(S.money<S.tapCost?' dis':'');
- t.innerHTML=`<div class="ci">👆</div><div class="cinfo"><div class="cname">Сила тапа <span class="lvl">Ур. ${S.tapLevel}</span></div><div class="cdesc">+1 за клик</div></div><div class="cprice"><div class="cpv">💰 ${fmt(S.tapCost)}</div><div class="cpl">Цена</div></div>`;
- t.onclick=buyTap;sh.appendChild(t);
+ t.innerHTML=`<div class="ci">👆</div><div class="cinfo"><div class="cname">Сила тапа <span class="lvl">Ур. ${S.tapLevel}</span></div><div class="cdesc">+1 к тапу</div></div><div class="cprice"><div class="cpv">💰 ${fmt(S.tapCost)}</div><div class="cpl">Цена</div></div>`;
+ t.onclick=e=>{e.stopPropagation();buyTap()};sh.appendChild(t);
  S.businesses.forEach(b=>{
   const c=document.createElement('div');
   c.className='card biz'+(S.money<b.cost?' dis':'');
   c.innerHTML=`<div class="ci">${b.icon}</div><div class="cinfo"><div class="cname">${b.name} <span class="lvl">Ур. ${b.level}</span></div><div class="cdesc">+${fmt(b.income)}/сек</div></div><div class="cprice"><div class="cpv">💰 ${fmt(b.cost)}</div><div class="cpl">Цена</div></div>`;
-  c.onclick=()=>buyBiz(b.id);sh.appendChild(c);
+  c.onclick=e=>{e.stopPropagation();buyBiz(b.id)};sh.appendChild(c);
  });
 }
+
 function renderHead(){$('money').textContent=fmt(S.money);$('ptap').textContent=fmt(S.perTap);$('psec').textContent=fmt(getPS())}
 function render(){renderHead();renderScene();renderShop();save()}
 function save(){S.lastTime=Date.now();localStorage.setItem('tapGame',JSON.stringify(S))}
@@ -168,14 +248,30 @@ function buyTap(){if(S.money<S.tapCost)return;S.money-=S.tapCost;S.tapLevel++;S.
 function buyBiz(id){const b=S.businesses.find(x=>x.id===id);if(!b||S.money<b.cost)return;
  S.money-=b.cost;b.level++;b.income=b.baseIncome*Math.pow(1.15,b.level-1);b.cost=Math.floor(b.baseCost*Math.pow(1.18,b.level));
  tg?.HapticFeedback?.impactOccurred('medium');render()}
-$('tapBtn').addEventListener('click',e=>{
- S.money+=S.perTap;tg?.HapticFeedback?.impactOccurred('light');
- const f=document.createElement('div');f.className='float';f.textContent='+'+fmt(S.perTap);
- const r=$('ta').getBoundingClientRect();
- const x=(e.clientX||r.width/2+r.left)-r.left,y=(e.clientY||r.height/2+r.top)-r.top;
- f.style.left=x+'px';f.style.top=y+'px';$('ta').appendChild(f);setTimeout(()=>f.remove(),900);
+
+// === ТАП ПО ВСЕМУ ЭКРАНУ ===
+$('tapZone').addEventListener('pointerdown',e=>{
+ S.money+=S.perTap;
+ tg?.HapticFeedback?.impactOccurred('light');
+
+ // +N
+ const f=document.createElement('div');
+ f.className='float';f.textContent='+'+fmt(S.perTap);
+ f.style.left=e.clientX+'px';f.style.top=e.clientY+'px';
+ document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
+
+ // кольцо
+ const r=document.createElement('div');
+ r.className='tap-ring';
+ r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
+ document.body.appendChild(r);setTimeout(()=>r.remove(),600);
+
+ // анимация персонажа
+ $('char').classList.remove('tapped');void $('char').offsetWidth;$('char').classList.add('tapped');
+
  renderHead();renderScene();save();
 });
+
 let lt=Date.now();
 setInterval(()=>{const t=Date.now(),dt=(t-lt)/1000;lt=t;
  const inc=getPS()*dt;if(inc>0){S.money+=inc;renderHead();renderScene()}S.lastTime=t},100);
@@ -185,4 +281,4 @@ render();
 if(offEarn>0.5)setTimeout(()=>toast('💰 Оффлайн-доход: +'+fmt(offEarn)),600);
 </script>
 </body>
-</html>
+    </html>
