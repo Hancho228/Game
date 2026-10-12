@@ -52,7 +52,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
   transform:translate(-50%,-50%);pointer-events:none;animation:ring .6s ease-out forwards;z-index:15}
 @keyframes ring{0%{width:20px;height:20px;opacity:1}100%{width:120px;height:120px;opacity:0}}
 
-/* === КОНТЕНТ (над вкладками, СВОРАЧИВАЕТСЯ свайпом вниз) === */
 .content{
   position:absolute;left:0;right:0;
   bottom:80px;
@@ -97,6 +96,14 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .card.biz:not(.dis):active{box-shadow:0 1px 0 #2a6a1a}
 .card.biz .cpv{color:#1a5a0a}
 
+/* Карточки настроек */
+.card.set{background:linear-gradient(180deg,#e6f0ff,#b8d4f0);border-color:#1a4a8a;box-shadow:0 4px 0 #1a4a8a}
+.card.set:not(.dis):active{box-shadow:0 1px 0 #1a4a8a}
+.card.set .cpv{color:#1a4a8a}
+.card.danger{background:linear-gradient(180deg,#ffe6e6,#ffb8b8);border-color:#8a1a1a;box-shadow:0 4px 0 #8a1a1a}
+.card.danger:not(.dis):active{box-shadow:0 1px 0 #8a1a1a}
+.card.danger .cpv{color:#8a1a1a}
+
 .ci{font-size:26px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;
   background:rgba(255,255,255,.6);border-radius:12px;flex-shrink:0;border:2px solid rgba(90,58,26,.3)}
 .cinfo{flex:1;min-width:0}
@@ -107,6 +114,14 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .cprice{text-align:right;flex-shrink:0}
 .cpv{font-size:14px;font-weight:700;color:#8a5f1a;text-shadow:0 1px 0 #fff}
 .cpl{font-size:9px;color:#6a4a1a;font-weight:600;text-transform:uppercase}
+
+/* Переключатель (toggle) */
+.toggle{width:52px;height:28px;border-radius:14px;background:#8a5f1a;position:relative;
+  transition:background .25s;flex-shrink:0;cursor:pointer;border:2px solid #5a3a1a}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;
+  border-radius:50%;background:#fff;transition:transform .25s;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.toggle.on{background:#22b822}
+.toggle.on::after{transform:translateX(24px)}
 
 .soon{text-align:center;padding:30px 20px;color:#ffe9a8}
 .soon .big{font-size:60px;margin-bottom:10px}
@@ -121,20 +136,36 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
   border-top:4px solid #4a2f0a;
   box-shadow:0 -4px 12px rgba(0,0,0,.4);
 }
-.tab{flex:1;padding:8px 6px;border-radius:14px;text-align:center;cursor:pointer;
+.tab{flex:1;padding:8px 2px;border-radius:14px;text-align:center;cursor:pointer;
   background:rgba(0,0,0,.3);border:3px solid #4a2f0a;
-  color:#d4a860;font-weight:700;font-size:11px;transition:all .15s;
+  color:#d4a860;font-weight:700;font-size:10px;transition:all .15s;
   box-shadow:0 3px 0 #4a2f0a;user-select:none}
 .tab:active{transform:translateY(2px);box-shadow:0 1px 0 #4a2f0a}
 .tab.active{background:linear-gradient(180deg,#ffd966,#ffb800);color:#5a3a1a;border-color:#8a5f1a;
   box-shadow:0 3px 0 #8a5f1a;transform:translateY(-2px)}
-.tab .tab-icon{font-size:22px;display:block;line-height:1;margin-bottom:2px}
+.tab .tab-icon{font-size:20px;display:block;line-height:1;margin-bottom:2px}
+
+/* Модалка подтверждения сброса */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;
+  display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-box{background:linear-gradient(180deg,#fffbe6,#ffe9a8);
+  border:4px solid #8a5f1a;border-radius:22px;padding:20px;max-width:340px;width:100%;
+  box-shadow:0 8px 0 #5a3a1a;text-align:center}
+.modal-title{font-size:18px;font-weight:700;color:#3a2a0a;margin-bottom:8px}
+.modal-text{font-size:13px;color:#6a4a1a;margin-bottom:16px;line-height:1.5}
+.modal-btns{display:flex;gap:8px}
+.modal-btn{flex:1;padding:12px;border-radius:14px;font-weight:700;font-size:14px;
+  cursor:pointer;border:none;font-family:inherit;transition:transform .1s}
+.modal-btn:active{transform:translateY(2px)}
+.modal-btn.cancel{background:#d4a860;color:#3a2a0a;box-shadow:0 4px 0 #8a5f1a}
+.modal-btn.confirm{background:#e04040;color:#fff;box-shadow:0 4px 0 #8a1a1a}
 
 .toast{position:fixed;bottom:calc(44vh + 100px);left:50%;transform:translateX(-50%) translateY(120px);
   background:linear-gradient(180deg,#fffbe6,#ffe9a8);color:#3a2a0a;
   padding:10px 20px;border-radius:14px;font-size:14px;font-weight:600;
   transition:transform .3s;z-index:100;border:3px solid #8a5f1a;
-  box-shadow:0 4px 0 #8a5f1a;white-space:nowrap}
+  box-shadow:0 4px 0 #8a5f1a;white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 .flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:200;transition:opacity .35s}
@@ -161,7 +192,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
     </div>
   </div>
 
-  <!-- Контент (сворачивается свайпом вниз) -->
   <div class="content" id="content">
     <div class="shop-handle-area" id="handleArea">
       <div class="shop-handle"></div>
@@ -175,13 +205,26 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
         <div class="sub">Рулетка, кости, слоты<br>и другие азартные игры</div>
       </div>
     </div>
+    <div class="tab-content hidden" id="tab-settings"></div>
   </div>
 
-  <!-- Вкладки внизу -->
   <div class="tabs">
     <div class="tab active" data-tab="tap"><span class="tab-icon">👆</span>Тап</div>
     <div class="tab" data-tab="biz"><span class="tab-icon">🏢</span>Бизнес</div>
     <div class="tab" data-tab="casino"><span class="tab-icon">🎰</span>Казино</div>
+    <div class="tab" data-tab="settings"><span class="tab-icon">⚙️</span>Ещё</div>
+  </div>
+</div>
+
+<!-- Модалка сброса -->
+<div class="modal" id="resetModal">
+  <div class="modal-box">
+    <div class="modal-title">⚠️ Сбросить прогресс?</div>
+    <div class="modal-text">Весь прогресс будет удалён безвозвратно. Вы уверены?</div>
+    <div class="modal-btns">
+      <button class="modal-btn cancel" id="cancelReset">Отмена</button>
+      <button class="modal-btn confirm" id="confirmReset">Сбросить</button>
+    </div>
   </div>
 </div>
 
@@ -199,7 +242,7 @@ const SC=[
  {min:1e9,  cls:'s6',char:'🤵',   name:'💎 Магнат'},
  {min:1e11, cls:'s7',char:'👑',   name:'🚀 Миллиардер'}
 ];
-const DEF={money:0,perTap:1,tapLevel:0,tapCost:10,currentScene:0,businesses:[
+const DEF={money:0,perTap:1,tapLevel:0,tapCost:10,currentScene:0,music:true,businesses:[
  {id:'coffee',name:'Кофейня',icon:'☕',level:0,baseIncome:1,baseCost:50,income:1,cost:50},
  {id:'shop',name:'Магазин',icon:'🏪',level:0,baseIncome:8,baseCost:500,income:8,cost:500},
  {id:'factory',name:'Завод',icon:'🏭',level:0,baseIncome:50,baseCost:5000,income:50,cost:5000},
@@ -221,7 +264,17 @@ function fmt(n){
 }
 function getPS(){return S.businesses.reduce((s,b)=>s+b.level*b.baseIncome,0)}
 function sceneIdx(){let i=0;for(let k=0;k<SC.length;k++)if(S.money>=SC[k].min)i=k;return i}
-function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200)}
+function toast(m,duration){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),duration||2200)}
+
+// === АУДИО ===
+const audio=new Audio('music.mp3');
+audio.loop=true;audio.volume=0.3;
+function startMusic(){
+ if(S.music){
+  audio.play().catch(()=>{}); // браузер может блокировать до первого тапа
+ }
+}
+document.addEventListener('click',()=>{if(S.music&&audio.paused)audio.play().catch(()=>{})},{once:true});
 
 function renderScene(){
  const i=sceneIdx(),sc=SC[i];
@@ -262,19 +315,46 @@ function renderBiz(){
  });
 }
 
+function renderSettings(){
+ const el=$('tab-settings');el.innerHTML='';
+ // Музыка
+ const music=document.createElement('div');
+ music.className='card set';
+ music.innerHTML=`<div class="ci">🎵</div><div class="cinfo"><div class="cname">Музыка</div><div class="cdesc">${S.music?'Включена':'Выключена'}</div></div><div class="toggle${S.music?' on':''}" id="musicToggle"></div>`;
+ el.appendChild(music);
+ music.onclick=e=>{
+  e.stopPropagation();
+  S.music=!S.music;
+  if(S.music){audio.play().catch(()=>{})}else{audio.pause()}
+  tg?.HapticFeedback?.impactOccurred('medium');
+  save();renderSettings();
+ };
+ // Сброс
+ const reset=document.createElement('div');
+ reset.className='card danger';
+ reset.innerHTML=`<div class="ci">🗑️</div><div class="cinfo"><div class="cname">Сбросить прогресс</div><div class="cdesc">Начать заново с нуля</div></div>`;
+ el.appendChild(reset);
+ reset.onclick=e=>{
+  e.stopPropagation();
+  $('resetModal').classList.add('show');
+  tg?.HapticFeedback?.impactOccurred('medium');
+ };
+ // Инфо
+ const info=document.createElement('div');
+ info.className='card dis';
+ info.innerHTML=`<div class="ci">ℹ️</div><div class="cinfo"><div class="cname">From Box to Billionaire</div><div class="cdesc">Версия 1.0</div></div>`;
+ el.appendChild(info);
+}
+
 function renderHead(){$('money').textContent=fmt(S.money);$('ptap').textContent=fmt(S.perTap);$('psec').textContent=fmt(getPS())}
-function render(){renderHead();renderScene();renderTap();renderBiz();save()}
+function render(){renderHead();renderScene();renderTap();renderBiz();renderSettings();save()}
 function save(){S.lastTime=Date.now();localStorage.setItem('tapGame',JSON.stringify(S))}
 function buyTap(){if(S.money<S.tapCost)return;S.money-=S.tapCost;S.tapLevel++;S.perTap++;S.tapCost=Math.floor(S.tapCost*1.6);tg?.HapticFeedback?.impactOccurred('medium');render()}
 function buyBiz(id){const b=S.businesses.find(x=>x.id===id);if(!b||S.money<b.cost)return;
  S.money-=b.cost;b.level++;b.income=b.baseIncome*Math.pow(1.15,b.level-1);b.cost=Math.floor(b.baseCost*Math.pow(1.18,b.level));
  tg?.HapticFeedback?.impactOccurred('medium');render()}
 
-// === КОНТЕНТ ПАНЕЛИ ===
-const content=$('content');
-let collapsed=false;
-
-// === ВКЛАДКИ (открывают контент, если он свёрнут) ===
+// === ВКЛАДКИ ===
 document.querySelectorAll('.tab').forEach(t=>{
  t.addEventListener('click',e=>{
   e.stopPropagation();
@@ -282,7 +362,6 @@ document.querySelectorAll('.tab').forEach(t=>{
   document.querySelectorAll('.tab-content').forEach(x=>x.classList.add('hidden'));
   t.classList.add('active');
   $('tab-'+t.dataset.tab).classList.remove('hidden');
-  // РАСКРЫВАЕМ контент при нажатии на вкладку
   if(collapsed){
    collapsed=false;
    content.classList.remove('collapsed');
@@ -292,9 +371,10 @@ document.querySelectorAll('.tab').forEach(t=>{
  });
 });
 
-// === СВАЙП ВНИЗ (только закрытие) ===
+// === СВАЙП ВНИЗ ===
+const content=$('content');
 const handleArea=$('handleArea');
-let startY=0,curY=0,dragging=false,moved=false;
+let startY=0,curY=0,dragging=false,collapsed=false,moved=false;
 
 function onStart(e){
   const t=e.touches?e.touches[0]:e;
@@ -308,13 +388,9 @@ function onMove(e){
   curY=t.clientY;
   const dy=curY-startY;
   if(Math.abs(dy)>5) moved=true;
-  // Разрешаем тянуть ТОЛЬКО вниз (dy > 0) и только когда открыто
-  if(collapsed){
-    // Если уже свёрнуто — не двигаем
-    return;
-  }
+  if(collapsed) return;
   const max=window.innerHeight*0.44-30;
-  const offset=Math.max(0,Math.min(max,dy)); // только вниз
+  const offset=Math.max(0,Math.min(max,dy));
   content.style.transform=`translateY(${offset}px)`;
   if(e.cancelable) e.preventDefault();
 }
@@ -324,7 +400,6 @@ function onEnd(){
   content.style.transition='';
   const dy=curY-startY;
   const threshold=30;
-  // Только закрытие, если потянул вниз достаточно
   if(!collapsed&&dy>threshold){
     collapsed=true;
     content.classList.add('collapsed');
@@ -343,6 +418,15 @@ handleArea.addEventListener('touchcancel',onEnd);
 handleArea.addEventListener('mousedown',onStart);
 window.addEventListener('mousemove',e=>{if(dragging)onMove(e)});
 window.addEventListener('mouseup',()=>{if(dragging)onEnd()});
+
+// === МОДАЛКА СБРОСА ===
+$('cancelReset').addEventListener('click',()=>{
+ $('resetModal').classList.remove('show');
+});
+$('confirmReset').addEventListener('click',()=>{
+ localStorage.removeItem('tapGame');
+ location.reload();
+});
 
 // === ТАП ПО ЭКРАНУ ===
 $('tapZone').addEventListener('pointerdown',e=>{
@@ -365,7 +449,13 @@ setInterval(()=>{const t=Date.now(),dt=(t-lt)/1000;lt=t;
 setInterval(save,5000);
 window.addEventListener('beforeunload',save);
 render();
-if(offEarn>0.5)setTimeout(()=>toast('💰 Оффлайн-доход: +'+fmt(offEarn)),600);
+// Оффлайн-доход показываем ТОЛЬКО 5 секунд
+if(offEarn>0.5){
+ const t=$('toast');
+ t.textContent='💰 Оффлайн-доход: +'+fmt(offEarn);
+ t.classList.add('show');
+ setTimeout(()=>t.classList.remove('show'),5000);
+}
 </script>
 </body>
-    </html> 
+  </html> 
