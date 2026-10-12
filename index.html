@@ -12,43 +12,21 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 #app{height:100vh;position:relative;overflow:hidden}
 
 /* === ФОН СЦЕН (PNG) === */
-#bg{position:absolute;inset:0;transition:all .6s ease;background-size:cover;background-position:center}
+#bg{position:absolute;inset:0;transition:all .6s ease;background-size:cover;background-position:center;z-index:0}
 .s1{background-image:url('scene1.png')}
 .s2{background-image:url('scene2.png')}
-
-/* Солнце/луна */
-.sun{position:absolute;top:6%;right:8%;width:70px;height:70px;border-radius:50%;
-  background:radial-gradient(circle,#fff8b0,#ffd700);box-shadow:0 0 60px rgba(255,215,0,.7);z-index:1}
-.s7 .sun{background:radial-gradient(circle,#fff,#e0a8ff);box-shadow:0 0 60px rgba(200,100,255,.8)}
-
-/* Облака */
-.cloud{position:absolute;background:rgba(255,255,255,.85);border-radius:50px;z-index:1;opacity:.9}
-.cloud::before,.cloud::after{content:'';position:absolute;background:inherit;border-radius:50%}
-.cloud::before{width:60%;height:120%;top:-40%;left:15%}
-.cloud::after{width:50%;height:100%;top:-30%;right:15%}
-.c1{width:90px;height:28px;top:10%;left:5%;animation:drift 40s linear infinite}
-.c2{width:70px;height:22px;top:18%;right:15%;animation:drift 55s linear infinite reverse}
-.c3{width:110px;height:32px;top:4%;left:35%;animation:drift 70s linear infinite}
-@keyframes drift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
-
+.s3{background-image:url('scene3.png')}
+.s4{background-image:url('scene4.png')}
+.s5{background-image:url('scene5.png')}
+.s6{background-image:url('scene6.png')}
+.s7{background-image:url('scene7.png')}
 
 /* === ПЕРСОНАЖ === */
 #char{position:absolute;bottom:38%;left:50%;transform:translateX(-50%);font-size:150px;z-index:3;
-  filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));transition:font-size .4s;line-height:1}
-#char.tapped{animation:tapPop .3s ease}
-@keyframes tapPop{0%{transform:translateX(-50%) scale(1)}40%{transform:translateX(-50%) scale(1.15) rotate(-3deg)}100%{transform:translateX(-50%) scale(1)}}
-
-/* Коробка-дом для 1 уровня */
-.box-house{position:absolute;bottom:24%;left:50%;transform:translateX(-50%);z-index:2;
-  width:120px;height:100px;background:linear-gradient(135deg,#b8895a,#8a5f3a);
-  border:4px solid #5a3a1a;border-radius:6px;
-  box-shadow:inset -10px -10px 0 rgba(0,0,0,.2),0 8px 0 #4a2f1a}
-.box-house::before{content:'';position:absolute;top:-8px;left:-8px;right:-8px;height:14px;
-  background:#a87545;border:4px solid #5a3a1a;border-radius:4px}
-.box-house::after{content:'📦';position:absolute;top:-30px;right:-20px;font-size:30px}
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));transition:font-size .4s;line-height:1;pointer-events:none}
 
 /* === UI ШАПКА === */
-.top{position:relative;z-index:10;padding:12px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.top{position:absolute;top:0;left:0;right:0;z-index:10;padding:12px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .top>*{pointer-events:auto}
 .bal-card{background:linear-gradient(180deg,#fffbe6,#ffe9a8);
   border:4px solid #8a5f1a;border-radius:22px;padding:10px 14px;text-align:center;
@@ -67,7 +45,7 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .stat-v{font-size:15px;font-weight:700;color:#fff;text-shadow:0 2px 0 #2a6a9a}
 .stat-l{font-size:9px;color:#fff;text-transform:uppercase;font-weight:600;text-shadow:0 1px 0 #2a6a9a}
 
-/* === ЗОНА ТАПА === */
+/* === ЗОНА ТАПА (на весь экран, ПОД шапкой и магазином) === */
 .tap-zone{position:absolute;inset:0;z-index:5;cursor:pointer}
 
 /* Float +N */
@@ -127,14 +105,7 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 </head>
 <body>
 <div id="app">
-  <div id="bg" class="s1">
-    <div class="sun"></div>
-    <div class="cloud c1"></div>
-    <div class="cloud c2"></div>
-    <div class="cloud c3"></div>
-    <div class="rain"></div>
-    <div class="box-house" id="boxHouse"></div>
-  </div>
+  <div id="bg" class="s1"></div>
 
   <div id="char">🧍</div>
 
@@ -207,7 +178,6 @@ function renderScene(){
  $('bg').className=sc.cls;
  $('char').textContent=sc.char;
  $('sn').textContent=sc.name;
- $('boxHouse').style.display=i===0?'block':'none';
  const nx=SC[i+1];
  if(nx){const p=Math.min(100,((S.money-sc.min)/(nx.min-sc.min))*100);
   $('pb').style.width=p+'%';
@@ -243,20 +213,15 @@ $('tapZone').addEventListener('pointerdown',e=>{
  S.money+=S.perTap;
  tg?.HapticFeedback?.impactOccurred('light');
 
- // +N
  const f=document.createElement('div');
  f.className='float';f.textContent='+'+fmt(S.perTap);
  f.style.left=e.clientX+'px';f.style.top=e.clientY+'px';
  document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
 
- // кольцо
  const r=document.createElement('div');
  r.className='tap-ring';
  r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
  document.body.appendChild(r);setTimeout(()=>r.remove(),600);
-
- // анимация персонажа
- $('char').classList.remove('tapped');void $('char').offsetWidth;$('char').classList.add('tapped');
 
  renderHead();renderScene();save();
 });
@@ -270,4 +235,4 @@ render();
 if(offEarn>0.5)setTimeout(()=>toast('💰 Оффлайн-доход: +'+fmt(offEarn)),600);
 </script>
 </body>
-    </html>
+        </html>
