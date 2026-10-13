@@ -210,6 +210,40 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
     <div class="tab-content" id="tab-tap"></div>
     <div class="tab-content hidden" id="tab-biz"></div>
     <div class="tab-content hidden" id="tab-casino">
+  <div class="casino-games">
+    <div class="casino-card" data-game="coin">
+      <div class="casino-icon">🪙</div>
+      <div class="casino-name">Монетка</div>
+      <div class="casino-desc">x1.9 · шанс 50%</div>
+    </div>
+    <div class="casino-card" data-game="dice">
+      <div class="casino-icon">🎲</div>
+      <div class="casino-name">Кости</div>
+      <div class="casino-desc">x5 · шанс 17%</div>
+    </div>
+    <div class="casino-card" data-game="slots">
+      <div class="casino-icon">🎰</div>
+      <div class="casino-name">Слоты</div>
+      <div class="casino-desc">до x50</div>
+    </div>
+  </div>
+
+  <div class="bet-panel">
+    <div class="bet-row">
+      <div class="bet-label">Ставка:</div>
+      <div class="bet-value" id="betValue">100</div>
+    </div>
+    <div class="bet-buttons">
+      <button class="bet-btn" data-bet="10">10</button>
+      <button class="bet-btn" data-bet="100">100</button>
+      <button class="bet-btn" data-bet="1000">1K</button>
+      <button class="bet-btn" data-bet="10000">10K</button>
+      <button class="bet-btn" data-bet="half">½</button>
+      <button class="bet-btn" data-bet="max">MAX</button>
+    </div>
+    <button class="play-btn" id="playBtn">🎲 ИГРАТЬ</button>
+  </div>
+    </div>
       <div class="soon">
         <div class="big">🎰</div>
         <div class="title">Казино скоро откроется!</div>
