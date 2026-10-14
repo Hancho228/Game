@@ -140,6 +140,32 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .soon .title{font-size:20px;font-weight:700;color:#ffd966;margin-bottom:6px}
 .soon .sub{font-size:13px;color:#d4a860;line-height:1.5}
 
+/* === КАЗИНО === */
+.casino-games{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.casino-card{background:linear-gradient(180deg,#ffe6f0,#ffb8d4);border:3px solid #8a1a5a;
+  border-radius:14px;padding:10px 6px;text-align:center;cursor:pointer;
+  box-shadow:0 4px 0 #8a1a5a;transition:transform .1s}
+.casino-card:active{transform:translateY(3px);box-shadow:0 1px 0 #8a1a5a}
+.casino-card.active{background:linear-gradient(180deg,#ffd6f0,#ff6ab0);border-color:#ff0066;
+  box-shadow:0 4px 0 #ff0066,0 0 20px rgba(255,0,102,.5)}
+.casino-icon{font-size:32px;line-height:1}
+.casino-name{font-size:12px;font-weight:700;color:#5a1a3a;margin-top:4px}
+.casino-desc{font-size:9px;color:#8a1a5a;font-weight:600}
+
+.bet-panel{background:rgba(0,0,0,.15);border-radius:14px;padding:10px}
+.bet-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.bet-label{font-size:13px;color:#fff;font-weight:700}
+.bet-value{font-size:20px;font-weight:700;color:#ffd700;text-shadow:0 2px 0 #8a5f1a}
+.bet-buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.bet-btn{padding:8px;border-radius:10px;background:#d4a860;color:#3a2a0a;
+  border:2px solid #8a5f1a;font-weight:700;font-size:12px;cursor:pointer;
+  box-shadow:0 3px 0 #8a5f1a;font-family:inherit}
+.bet-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #8a5f1a}
+.play-btn{width:100%;padding:14px;border-radius:14px;background:linear-gradient(180deg,#ff6ab0,#e0007a);
+  color:#fff;border:3px solid #8a005a;font-weight:700;font-size:16px;cursor:pointer;
+  box-shadow:0 4px 0 #8a005a;font-family:inherit;letter-spacing:1px}
+.play-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a005a}
+
 .tabs{
   position:absolute;bottom:0;left:0;right:0;z-index:20;
   display:flex;gap:6px;
@@ -186,7 +212,7 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 <body>
 <div id="app">
   <div id="bg" class="s1"></div>
-  <img id="char" src="char1.jpg" alt="">
+  <img id="char" src="char1 (1).png" alt="">
   <div class="tap-zone" id="tapZone"></div>
 
   <div class="top">
@@ -210,40 +236,42 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
     <div class="tab-content" id="tab-tap"></div>
     <div class="tab-content hidden" id="tab-biz"></div>
     <div class="tab-content hidden" id="tab-casino">
-  <div class="casino-games">
-    <div class="casino-card" data-game="coin">
-      <div class="casino-icon">🪙</div>
-      <div class="casino-name">Монетка</div>
-      <div class="casino-desc">x1.9 · шанс 50%</div>
-    </div>
-    <div class="casino-card" data-game="dice">
-      <div class="casino-icon">🎲</div>
-      <div class="casino-name">Кости</div>
-      <div class="casino-desc">x5 · шанс 17%</div>
-    </div>
-    <div class="casino-card" data-game="slots">
-      <div class="casino-icon">🎰</div>
-      <div class="casino-name">Слоты</div>
-      <div class="casino-desc">до x50</div>
-    </div>
-  </div>
+      <div class="casino-games">
+        <div class="casino-card active" data-game="coin">
+          <div class="casino-icon">🪙</div>
+          <div class="casino-name">Монетка</div>
+          <div class="casino-desc">x1.9 · 50%</div>
+        </div>
+        <div class="casino-card" data-game="dice">
+          <div class="casino-icon">🎲</div>
+          <div class="casino-name">Кости</div>
+          <div class="casino-desc">x5 · 17%</div>
+        </div>
+        <div class="casino-card" data-game="slots">
+          <div class="casino-icon">🎰</div>
+          <div class="casino-name">Слоты</div>
+          <div class="casino-desc">до x50</div>
+        </div>
+      </div>
 
-  <div class="bet-panel">
-    <div class="bet-row">
-      <div class="bet-label">Ставка:</div>
-      <div class="bet-value" id="betValue">100</div>
+      <div class="bet-panel">
+        <div class="bet-row">
+          <div class="bet-label">Ставка:</div>
+          <div class="bet-value" id="betValue">100</div>
+        </div>
+        <div class="bet-buttons">
+          <button class="bet-btn" data-bet="10">10</button>
+          <button class="bet-btn" data-bet="100">100</button>
+          <button class="bet-btn" data-bet="1000">1K</button>
+          <button class="bet-btn" data-bet="10000">10K</button>
+          <button class="bet-btn" data-bet="half">½</button>
+          <button class="bet-btn" data-bet="max">MAX</button>
+        </div>
+        <button class="play-btn" id="playBtn">🎲 ИГРАТЬ</button>
+      </div>
     </div>
-    <div class="bet-buttons">
-      <button class="bet-btn" data-bet="10">10</button>
-      <button class="bet-btn" data-bet="100">100</button>
-      <button class="bet-btn" data-bet="1000">1K</button>
-      <button class="bet-btn" data-bet="10000">10K</button>
-      <button class="bet-btn" data-bet="half">½</button>
-      <button class="bet-btn" data-bet="max">MAX</button>
-    </div>
-    <button class="play-btn" id="playBtn">🎲 ИГРАТЬ</button>
+    <div class="tab-content hidden" id="tab-settings"></div>
   </div>
-    </div>
 
   <div class="tabs">
     <div class="tab active" data-tab="tap"><span class="tab-icon">👆</span>Тап</div>
@@ -432,36 +460,4 @@ $('confirmReset').addEventListener('click',()=>{
  try{audio.pause();audio.currentTime=0}catch(e){}
  render();
  toast('🗑️ Прогресс сброшен!',2500);
- tg?.HapticFeedback?.notificationOccurred('success');
-});
-
-$('tapZone').addEventListener('pointerdown',e=>{
- S.money+=S.perTap;
- tg?.HapticFeedback?.impactOccurred('light');
- const f=document.createElement('div');
- f.className='float';f.textContent='+'+fmt(S.perTap);
- f.style.left=e.clientX+'px';f.style.top=e.clientY+'px';
- document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
- const r=document.createElement('div');
- r.className='tap-ring';
- r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
- document.body.appendChild(r);setTimeout(()=>r.remove(),600);
- const c=$('char');c.classList.remove('tapped');void c.offsetWidth;c.classList.add('tapped');
- renderHead();renderScene();save();
-});
-
-let lt=Date.now();
-setInterval(()=>{const t=Date.now(),dt=(t-lt)/1000;lt=t;
- const inc=getPS()*dt;if(inc>0){S.money+=inc;renderHead();renderScene()}S.lastTime=t},100);
-setInterval(save,5000);
-window.addEventListener('beforeunload',save);
-render();
-if(offEarn>0.5){
- const t=$('toast');
- t.textContent='💰 Оффлайн-доход: +'+fmt(offEarn);
- t.classList.add('show');
- setTimeout(()=>{t.classList.remove('show')},5000);
-}
-</script>
-</body>
-        </html>
+ tg?.HapticFeedback?.notificationOccurred 
