@@ -10,7 +10,6 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:'Fredoka',sans-serif}
 html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 #app{height:100vh;position:relative;overflow:hidden}
-
 #bg{position:absolute;inset:0;transition:all .6s ease;background-size:cover;background-position:center;z-index:0}
 .s1{background-image:url('scene1.png')}
 .s2{background-image:url('scene2.png')}
@@ -19,12 +18,10 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .s5{background-image:url('scene5.png')}
 .s6{background-image:url('scene6.png')}
 .s7{background-image:url('scene7.png')}
-
 #char{position:absolute;bottom:28%;left:50%;transform:translateX(-50%);height:42vh;width:auto;z-index:3;pointer-events:none;filter:drop-shadow(0 8px 16px rgba(0,0,0,.55));animation:idle 2.5s ease-in-out infinite;transition:height .4s,opacity .3s}
 @keyframes idle{0%,100%{transform:translateX(-50%) translateY(0) scale(1)}50%{transform:translateX(-50%) translateY(-6px) scale(1.01)}}
 #char.tapped{animation:tapPop .35s ease}
 @keyframes tapPop{0%{transform:translateX(-50%) scale(1)}40%{transform:translateX(-50%) scale(1.15) rotate(-3deg)}100%{transform:translateX(-50%) scale(1)}}
-
 .top{position:absolute;top:0;left:0;right:0;z-index:10;padding:12px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .top>*{pointer-events:auto}
 .bal-card{background:linear-gradient(180deg,#fffbe6,#ffe9a8);border:4px solid #8a5f1a;border-radius:22px;padding:10px 14px;text-align:center;box-shadow:0 6px 0 #8a5f1a,0 10px 20px rgba(0,0,0,.3)}
@@ -34,31 +31,23 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .prog-wrap{margin-top:8px;height:10px;background:#d4a860;border:2px solid #8a5f1a;border-radius:6px;overflow:hidden}
 .prog-bar{height:100%;background:linear-gradient(90deg,#4adf4a,#22b822);border-radius:4px;transition:width .4s;width:0}
 .prog-txt{font-size:10px;color:#6a4a1a;margin-top:4px;font-weight:600}
-
 .stats{display:flex;gap:8px}
 .stat{flex:1;background:linear-gradient(180deg,#a8dcff,#5fb8ff);border:3px solid #2a6a9a;border-radius:14px;padding:6px;text-align:center;box-shadow:0 4px 0 #2a6a9a}
 .stat-v{font-size:15px;font-weight:700;color:#fff;text-shadow:0 2px 0 #2a6a9a}
 .stat-l{font-size:9px;color:#fff;text-transform:uppercase;font-weight:600;text-shadow:0 1px 0 #2a6a9a}
-
 .tap-zone{position:absolute;inset:0;z-index:5;cursor:pointer}
-
 .float{position:absolute;font-size:26px;font-weight:700;color:#fff;text-shadow:0 0 8px #ffd700,0 3px 0 #b8860b,0 0 20px #ffd700;pointer-events:none;animation:fup 1s ease-out forwards;z-index:20;transform:translate(-50%,-50%)}
 @keyframes fup{0%{transform:translate(-50%,-50%) scale(.6);opacity:1}30%{transform:translate(-50%,-80%) scale(1.2)}100%{transform:translate(-50%,-180%) scale(1);opacity:0}}
-
 .tap-ring{position:absolute;width:80px;height:80px;border:3px solid #ffd700;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;animation:ring .6s ease-out forwards;z-index:15}
 @keyframes ring{0%{width:20px;height:20px;opacity:1}100%{width:120px;height:120px;opacity:0}}
-
 .content{position:absolute;left:0;right:0;bottom:80px;height:44vh;z-index:14;display:flex;flex-direction:column;background:linear-gradient(180deg,#8a5f1a 0%,#6a4a1a 100%);border-top:5px solid #4a2f0a;border-radius:24px 24px 0 0;box-shadow:0 -6px 20px rgba(0,0,0,.5);transform:translateY(0);transition:transform .35s cubic-bezier(.4,0,.2,1)}
 .content.collapsed{transform:translateY(calc(100% - 30px))}
-
 .shop-handle-area{padding:6px 0 4px;display:flex;justify-content:center;align-items:center;cursor:grab;flex-shrink:0;touch-action:none;-webkit-user-select:none;user-select:none;position:relative}
 .shop-handle{width:50px;height:5px;background:#d4a860;border-radius:3px;opacity:.4;transition:opacity .3s}
 .content.collapsed .shop-handle{opacity:.7}
-
 .tab-content{overflow-y:auto;padding:0 10px 12px;display:flex;flex-direction:column;gap:8px;flex:1;touch-action:pan-y}
 .tab-content::-webkit-scrollbar{width:0}
 .tab-content.hidden{display:none}
-
 .card{background:linear-gradient(180deg,#fffbe6,#ffe9a8);border:3px solid #5a3a1a;border-radius:16px;padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform .1s;box-shadow:0 4px 0 #5a3a1a;flex-shrink:0}
 .card:not(.dis):active{transform:translateY(3px);box-shadow:0 1px 0 #5a3a1a}
 .card.dis{opacity:.5;cursor:not-allowed;filter:grayscale(.4)}
@@ -69,7 +58,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .card.set .cpv{color:#1a4a8a}
 .card.danger{background:linear-gradient(180deg,#ffe6e6,#ffb8b8);border-color:#8a1a1a;box-shadow:0 4px 0 #8a1a1a}
 .card.danger .cpv{color:#8a1a1a}
-
 .ci{font-size:26px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.6);border-radius:12px;flex-shrink:0;border:2px solid rgba(90,58,26,.3)}
 .cinfo{flex:1;min-width:0}
 .cname{font-size:14px;font-weight:700;color:#3a2a0a}
@@ -78,12 +66,10 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .cprice{text-align:right;flex-shrink:0}
 .cpv{font-size:14px;font-weight:700;color:#8a5f1a;text-shadow:0 1px 0 #fff}
 .cpl{font-size:9px;color:#6a4a1a;font-weight:600;text-transform:uppercase}
-
 .toggle{width:52px;height:28px;border-radius:14px;background:#8a5f1a;position:relative;transition:background .25s;flex-shrink:0;cursor:pointer;border:2px solid #5a3a1a}
 .toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .25s;box-shadow:0 2px 4px rgba(0,0,0,.3)}
 .toggle.on{background:#22b822}
 .toggle.on::after{transform:translateX(24px)}
-
 .casino-games{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
 .casino-card{background:linear-gradient(180deg,#ffe6f0,#ffb8d4);border:3px solid #8a1a5a;border-radius:14px;padding:10px 6px;text-align:center;cursor:pointer;box-shadow:0 4px 0 #8a1a5a;transition:transform .1s}
 .casino-card:active{transform:translateY(3px);box-shadow:0 1px 0 #8a1a5a}
@@ -91,7 +77,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .casino-icon{font-size:32px;line-height:1}
 .casino-name{font-size:12px;font-weight:700;color:#5a1a3a;margin-top:4px}
 .casino-desc{font-size:9px;color:#8a1a5a;font-weight:600}
-
 .bet-panel{background:rgba(0,0,0,.15);border-radius:14px;padding:10px}
 .bet-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .bet-label{font-size:13px;color:#fff;font-weight:700}
@@ -101,13 +86,11 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .bet-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #8a5f1a}
 .play-btn{width:100%;padding:14px;border-radius:14px;background:linear-gradient(180deg,#ff6ab0,#e0007a);color:#fff;border:3px solid #8a005a;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 0 #8a005a;font-family:inherit;letter-spacing:1px}
 .play-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a005a}
-
 .tabs{position:absolute;bottom:0;left:0;right:0;z-index:20;display:flex;gap:6px;padding:10px 10px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,#7a4f10 0%,#5a3a0a 100%);border-top:4px solid #4a2f0a;box-shadow:0 -4px 12px rgba(0,0,0,.4)}
 .tab{flex:1;padding:8px 2px;border-radius:14px;text-align:center;cursor:pointer;background:rgba(0,0,0,.3);border:3px solid #4a2f0a;color:#d4a860;font-weight:700;font-size:10px;transition:all .15s;box-shadow:0 3px 0 #4a2f0a;user-select:none}
 .tab:active{transform:translateY(2px);box-shadow:0 1px 0 #4a2f0a}
 .tab.active{background:linear-gradient(180deg,#ffd966,#ffb800);color:#5a3a1a;border-color:#8a5f1a;box-shadow:0 3px 0 #8a5f1a;transform:translateY(-2px)}
 .tab .tab-icon{font-size:20px;display:block;line-height:1;margin-bottom:2px}
-
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
 .modal.show{display:flex}
 .modal-box{background:linear-gradient(180deg,#fffbe6,#ffe9a8);border:4px solid #8a5f1a;border-radius:22px;padding:20px;max-width:340px;width:100%;box-shadow:0 8px 0 #5a3a1a;text-align:center}
@@ -119,8 +102,21 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
 .modal-btn.cancel{background:#d4a860;color:#3a2a0a;box-shadow:0 4px 0 #8a5f1a}
 .modal-btn.confirm{background:#e04040;color:#fff;box-shadow:0 4px 0 #8a1a1a}
 
-.toast{position:fixed;bottom:calc(44vh + 100px);left:50%;transform:translateX(-50%) translateY(120px);background:linear-gradient(180deg,#fffbe6,#ffe9a8);color:#3a2a0a;padding:10px 20px;border-radius:14px;font-size:14px;font-weight:600;transition:transform .3s;z-index:100;border:3px solid #8a5f1a;box-shadow:0 4px 0 #8a5f1a;white-space:nowrap;pointer-events:none}
-.toast.show{transform:translateX(-50%) translateY(0)}
+/* === TOAST (через CSS-анимацию) === */
+.toast{position:fixed;bottom:calc(44vh + 100px);left:50%;
+  background:linear-gradient(180deg,#fffbe6,#ffe9a8);color:#3a2a0a;
+  padding:10px 20px;border-radius:14px;font-size:14px;font-weight:600;
+  z-index:100;border:3px solid #8a5f1a;
+  box-shadow:0 4px 0 #8a5f1a;white-space:nowrap;pointer-events:none;
+  opacity:0;visibility:hidden;
+  transform:translateX(-50%) translateY(120px)}
+.toast.show{animation:toastAnim 2.5s ease forwards}
+@keyframes toastAnim{
+  0%{opacity:0;visibility:visible;transform:translateX(-50%) translateY(120px)}
+  10%{opacity:1;transform:translateX(-50%) translateY(0)}
+  85%{opacity:1;transform:translateX(-50%) translateY(0)}
+  100%{opacity:0;visibility:hidden;transform:translateX(-50%) translateY(120px)}
+}
 
 .flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:200;transition:opacity .35s}
 .flash.on{opacity:.85}
@@ -131,7 +127,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
   <div id="bg" class="s1"></div>
   <img id="char" src="char1 (1).png" alt="">
   <div class="tap-zone" id="tapZone"></div>
-
   <div class="top">
     <div class="bal-card">
       <div class="bal-label">Баланс</div>
@@ -145,37 +140,18 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
       <div class="stat"><div class="stat-v" id="psec">0</div><div class="stat-l">В сек</div></div>
     </div>
   </div>
-
   <div class="content" id="content">
-    <div class="shop-handle-area" id="handleArea">
-      <div class="shop-handle"></div>
-    </div>
+    <div class="shop-handle-area" id="handleArea"><div class="shop-handle"></div></div>
     <div class="tab-content" id="tab-tap"></div>
     <div class="tab-content hidden" id="tab-biz"></div>
     <div class="tab-content hidden" id="tab-casino">
       <div class="casino-games">
-        <div class="casino-card active" data-game="coin">
-          <div class="casino-icon">🪙</div>
-          <div class="casino-name">Монетка</div>
-          <div class="casino-desc">x1.9 · 50%</div>
-        </div>
-        <div class="casino-card" data-game="dice">
-          <div class="casino-icon">🎲</div>
-          <div class="casino-name">Кости</div>
-          <div class="casino-desc">x5 · 17%</div>
-        </div>
-        <div class="casino-card" data-game="slots">
-          <div class="casino-icon">🎰</div>
-          <div class="casino-name">Слоты</div>
-          <div class="casino-desc">до x50</div>
-        </div>
+        <div class="casino-card active" data-game="coin"><div class="casino-icon">🪙</div><div class="casino-name">Монетка</div><div class="casino-desc">x1.9 · 50%</div></div>
+        <div class="casino-card" data-game="dice"><div class="casino-icon">🎲</div><div class="casino-name">Кости</div><div class="casino-desc">x5 · 17%</div></div>
+        <div class="casino-card" data-game="slots"><div class="casino-icon">🎰</div><div class="casino-name">Слоты</div><div class="casino-desc">до x50</div></div>
       </div>
-
       <div class="bet-panel">
-        <div class="bet-row">
-          <div class="bet-label">Ставка:</div>
-          <div class="bet-value" id="betValue">100</div>
-        </div>
+        <div class="bet-row"><div class="bet-label">Ставка:</div><div class="bet-value" id="betValue">100</div></div>
         <div class="bet-buttons">
           <button class="bet-btn" data-bet="10">10</button>
           <button class="bet-btn" data-bet="100">100</button>
@@ -189,7 +165,6 @@ html,body{height:100%;overflow:hidden;user-select:none;background:#000}
     </div>
     <div class="tab-content hidden" id="tab-settings"></div>
   </div>
-
   <div class="tabs">
     <div class="tab active" data-tab="tap"><span class="tab-icon">👆</span>Тап</div>
     <div class="tab" data-tab="biz"><span class="tab-icon">🏢</span>Бизнес</div>
@@ -249,7 +224,16 @@ function fmt(n){
 }
 function getPS(){return S.businesses.reduce((s,b)=>s+b.level*b.baseIncome,0)}
 function sceneIdx(){let i=0;for(let k=0;k<SC.length;k++)if(S.money>=SC[k].min)i=k;return i}
-function toast(m,duration){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),duration||2200)}
+
+// === TOAST (CSS-анимация, гарантированно исчезает) ===
+function toast(m,duration){
+ const t=$('toast');
+ t.textContent=m;
+ t.classList.remove('show');
+ void t.offsetWidth;
+ t.style.animationDuration=(duration||2500)+'ms';
+ t.classList.add('show');
+}
 
 const audio=new Audio('music.mp3');
 audio.loop=true;audio.volume=0.3;
@@ -326,6 +310,7 @@ function buyBiz(id){const b=S.businesses.find(x=>x.id===id);if(!b||S.money<b.cos
  S.money-=b.cost;b.level++;b.income=b.baseIncome*Math.pow(1.15,b.level-1);b.cost=Math.floor(b.baseCost*Math.pow(1.18,b.level));
  tg?.HapticFeedback?.impactOccurred('medium');render()}
 
+let collapsed=false;
 document.querySelectorAll('.tab').forEach(t=>{
  t.addEventListener('click',e=>{
   e.stopPropagation();
@@ -340,7 +325,7 @@ document.querySelectorAll('.tab').forEach(t=>{
 
 const content=$('content');
 const handleArea=$('handleArea');
-let startY=0,curY=0,dragging=false,collapsed=false,moved=false;
+let startY=0,curY=0,dragging=false,moved=false;
 
 function onStart(e){const t=e.touches?e.touches[0]:e;startY=t.clientY;curY=startY;dragging=true;moved=false;content.style.transition='none'}
 function onMove(e){
@@ -429,10 +414,7 @@ document.querySelectorAll('.bet-btn').forEach(btn=>{
 
 const playBtn=$('playBtn');
 if(playBtn){
- playBtn.addEventListener('click',e=>{
-  e.stopPropagation();
-  playCasino();
- });
+ playBtn.addEventListener('click',e=>{e.stopPropagation();playCasino()});
 }
 
 function playCasino(){
@@ -485,11 +467,8 @@ setInterval(save,5000);
 window.addEventListener('beforeunload',save);
 render();
 if(offEarn>0.5){
- const t=$('toast');
- t.textContent='💰 Оффлайн-доход: +'+fmt(offEarn);
- t.classList.add('show');
- setTimeout(()=>{t.classList.remove('show')},5000);
+ setTimeout(()=>toast('💰 Оффлайн-доход: +'+fmt(offEarn),5000),300);
 }
 </script>
 </body>
-  </html>
+                                                                   </html> 
